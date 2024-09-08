@@ -2,7 +2,7 @@ const fs = require("fs");
 const archiver = require("archiver");
 const path = require("path");
 
-const output = fs.createWriteStream(__dirname + "/dist/oc4_google_product_feed.ocmod.zip");
+const output = fs.createWriteStream(__dirname + "/dist/ps_google_product_feed.ocmod.zip");
 
 const archive = archiver("zip", {
   zlib: { level: 4 },
@@ -10,7 +10,7 @@ const archive = archiver("zip", {
 
 output.on("close", function () {
   console.log(archive.pointer() + " total bytes");
-  console.log("oc4_google_product_feed.ocmod.zip has been created");
+  console.log("ps_google_product_feed.ocmod.zip has been created");
 });
 
 archive.on("warning", function (err) {
