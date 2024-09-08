@@ -1,0 +1,14 @@
+Playful Sparkle - Google Product Feed for OpenCart v4
+
+For more information, visit the extension GitHub page at https://github.com/playfulsparkle/oc4_google_product_feed.git.
+
+Demo frontend - https://demo.playfulsparkle.com/opencart4/
+Demo backend - https://demo.playfulsparkle.com/opencart4/admin/
+
+Key Features
+
+Installation Guide
+
+Support & Feedback
+
+For support or any inquiries regarding the extension, feel free to open an issue on this repository or reach out via email at support@playfulsparkle.com.
