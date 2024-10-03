@@ -1,9 +1,15 @@
 <?php
 namespace Opencart\Admin\Controller\Extension\PSGoogleBase\Feed;
-
+/**
+ * Class PSGoogleBase
+ *
+ * @package Opencart\Admin\Controller\Extension\PSGoogleBase\Feed
+ */
 class PSGoogleBase extends \Opencart\System\Engine\Controller
 {
-
+    /**
+     * @return void
+     */
     public function index(): void
     {
         $this->load->language('extension/ps_google_base/feed/ps_google_base');
@@ -12,20 +18,20 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
         $data['breadcrumbs'] = [];
 
-        $data['breadcrumbs'][] = array(
+        $data['breadcrumbs'][] = [
             'text' => $this->language->get('text_home'),
             'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
-        );
+        ];
 
-        $data['breadcrumbs'][] = array(
+        $data['breadcrumbs'][] = [
             'text' => $this->language->get('text_extension'),
             'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=feed', true)
-        );
+        ];
 
-        $data['breadcrumbs'][] = array(
+        $data['breadcrumbs'][] = [
             'text' => $this->language->get('heading_title'),
             'href' => $this->url->link('extension/ps_google_base/feed/ps_google_base', 'user_token=' . $this->session->data['user_token'])
-        );
+        ];
 
         $data['action'] = $this->url->link('extension/ps_google_base/feed/ps_google_base.save', 'user_token=' . $this->session->data['user_token']);
 
@@ -33,7 +39,17 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
         $data['user_token'] = $this->session->data['user_token'];
 
-        $data['data_feed_url'] = HTTP_CATALOG . 'index.php?route=extension/ps_google_base/feed/ps_google_base';
+        $this->load->model('localisation/language');
+
+        $languages = $this->model_localisation_language->getLanguages();
+
+        $data['languages'] = $languages;
+
+        $data['data_feed_urls'] = [];
+
+        foreach ($languages as $language) {
+            $data['data_feed_urls'][$language['language_id']] = HTTP_CATALOG . 'index.php?route=extension/ps_google_base/feed/ps_google_base&language=' . $language['code'];
+        }
 
         $data['feed_ps_google_base_status'] = $this->config->get('feed_ps_google_base_status');
         $data['feed_ps_google_base_currency'] = $this->config->get('feed_ps_google_base_currency');
@@ -60,6 +76,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $this->response->setOutput($this->load->view('extension/ps_google_base/feed/ps_google_base', $data));
     }
 
+    /**
+     * @return void
+     */
     public function save(): void
     {
         $this->load->language('extension/ps_google_base/feed/ps_google_base');
@@ -86,6 +105,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $this->response->setOutput(json_encode($json));
     }
 
+    /**
+     * @return void
+     */
     public function install(): void
     {
         $this->load->model('extension/ps_google_base/feed/ps_google_base');
@@ -93,6 +115,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $this->model_extension_ps_google_base_feed_ps_google_base->install();
     }
 
+    /**
+     * @return void
+     */
     public function uninstall(): void
     {
         $this->load->model('extension/ps_google_base/feed/ps_google_base');
@@ -100,7 +125,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $this->model_extension_ps_google_base_feed_ps_google_base->uninstall();
     }
 
-
+    /**
+     * @return void
+     */
     public function import(): void
     {
         $this->load->language('extension/ps_google_base/feed/ps_google_base');
@@ -155,6 +182,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $this->response->setOutput(json_encode($json));
     }
 
+    /**
+     * @return void
+     */
     public function category(): void
     {
         $this->load->language('extension/ps_google_base/feed/ps_google_base');
@@ -179,12 +209,12 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $results = $this->model_extension_ps_google_base_feed_ps_google_base->getCategories($filter_data);
 
         foreach ($results as $result) {
-            $data['google_base_categories'][] = array(
+            $data['google_base_categories'][] = [
                 'google_base_category_id' => $result['google_base_category_id'],
                 'google_base_category'    => $result['google_base_category'],
                 'category_id'             => $result['category_id'],
                 'category'                => $result['category']
-            );
+            ];
         }
 
         $category_total = $this->model_extension_ps_google_base_feed_ps_google_base->getTotalCategories();
@@ -202,6 +232,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $this->response->setOutput($this->load->view('extension/ps_google_base/feed/ps_google_base_category', $data));
     }
 
+    /**
+     * @return void
+     */
     public function addCategory(): void
     {
         $this->load->language('extension/ps_google_base/feed/ps_google_base');
@@ -224,6 +257,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $this->response->setOutput(json_encode($json));
     }
 
+    /**
+     * @return void
+     */
     public function removeCategory(): void
     {
         $this->load->language('extension/ps_google_base/feed/ps_google_base');
@@ -244,6 +280,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $this->response->setOutput(json_encode($json));
     }
 
+    /**
+     * @return void
+     */
     public function autocomplete(): void
     {
         $json = [];
@@ -251,19 +290,19 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         if (isset($this->request->get['filter_name'])) {
             $this->load->model('extension/ps_google_base/feed/ps_google_base');
 
-            $filter_data = array(
+            $filter_data = [
                 'filter_name' => '%' . $this->request->get['filter_name'] . '%',
-                'start' => 0,
-                'limit' => 5
-            );
+                'start'       => 0,
+                'limit'       => 5
+            ];
 
             $results = $this->model_extension_ps_google_base_feed_ps_google_base->getGoogleBaseCategories($filter_data);
 
             foreach ($results as $result) {
-                $json[] = array(
+                $json[] = [
                     'google_base_category_id' => $result['google_base_category_id'],
-                    'name' => $result['name']
-                );
+                    'name'                    => $result['name']
+                ];
             }
         }
 

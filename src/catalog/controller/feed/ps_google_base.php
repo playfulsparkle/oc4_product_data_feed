@@ -1,8 +1,16 @@
 <?php
 namespace Opencart\Catalog\Controller\Extension\PSGoogleBase\Feed;
+/**
+ * Class PSGoogleBase
+ *
+ * @package Opencart\Catalog\Controller\Extension\PSGoogleBase\Feed
+ */
 class PSGoogleBase extends \Opencart\System\Engine\Controller
 {
-    public function index()
+    /**
+     * @return void
+     */
+    public function index(): void
     {
         if (!$this->config->get('feed_ps_google_base_status')) {
             return;
@@ -16,6 +24,21 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $this->load->model('catalog/category');
         $this->load->model('catalog/product');
         $this->load->model('tool/image');
+        $this->load->model('localisation/language');
+
+        $languages = $this->model_localisation_language->getLanguages();
+        $firstLanguage = current($languages);
+        $defaultLanguage = $firstLanguage['code'];
+
+        if (isset($this->request->get['language'])) {
+            $language = $this->request->get['language'];
+
+            if (false === in_array($language, array_column($languages, 'code'))) {
+                $language = $defaultLanguage;
+            }
+        } else {
+            $language = $defaultLanguage;
+        }
 
 
         // Initialize XMLWriter
@@ -34,16 +57,18 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         // Add channel metadata
         $xml->writeElement('title', $this->config->get('config_name'));
         $xml->writeElement('description', $this->config->get('config_meta_description'));
-        $xml->writeElement('link', $this->config->get('config_url'));
+
+        $link = $this->url->link('common/home', 'language=' . $language);
+        $xml->writeElement('link', str_replace('&amp;', '&', $link));
 
         $product_data = [];
         $google_base_categories = $this->model_extension_ps_google_base_feed_ps_google_base->getCategories();
 
         foreach ($google_base_categories as $google_base_category) {
-            $filter_data = array(
+            $filter_data = [
                 'filter_category_id' => $google_base_category['category_id'],
                 'filter_filter' => false
-            );
+            ];
 
             $products = $this->model_catalog_product->getProducts($filter_data);
 
@@ -59,7 +84,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                     $xml->writeCData(html_entity_decode($product['name'], ENT_QUOTES, 'UTF-8'));
                     $xml->endElement();
 
-                    $xml->writeElement('link', $this->url->link('product/product', 'product_id=' . $product['product_id']));
+                    $xml->writeElement('link', $this->url->link('product/product', 'language=' . $language . '&product_id=' . $product['product_id']));
 
                     $xml->startElement('description');
                     $xml->writeCData(strip_tags(html_entity_decode($product['description'], ENT_QUOTES, 'UTF-8')));
@@ -172,7 +197,10 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $this->response->setOutput($xml->outputMemory());
     }
 
-    protected function getPath($parent_id, $current_path = '')
+    /**
+     * @return string
+     */
+    protected function getPath($parent_id, $current_path = ''): string
     {
         $category_info = $this->model_catalog_category->getCategory($parent_id);
 
@@ -191,5 +219,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                 return $new_path;
             }
         }
+
+        return '';
     }
 }

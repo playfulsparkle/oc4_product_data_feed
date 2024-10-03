@@ -1,8 +1,15 @@
 <?php
 namespace Opencart\Admin\Model\Extension\PSGoogleBase\Feed;
-
+/**
+ * Class PSGoogleBase
+ *
+ * @package Opencart\Admin\Model\Extension\PSGoogleBase\Feed
+ */
 class PSGoogleBase extends \Opencart\System\Engine\Model
 {
+    /**
+     * @return void
+     */
     public function install(): void
     {
         $this->db->query("
@@ -23,13 +30,18 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
 		");
     }
 
-
+    /**
+     * @return void
+     */
     public function uninstall(): void
     {
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ps_google_base_category`");
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ps_google_base_category_to_category`");
     }
 
+    /**
+     * @return void
+     */
     public function import($string): void
     {
         $this->db->query("DELETE FROM " . DB_PREFIX . "ps_google_base_category");
@@ -47,6 +59,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
         }
     }
 
+    /**
+     * @return array
+     */
     public function getGoogleBaseCategories($data = []): array
     {
         $sql = "SELECT * FROM `" . DB_PREFIX . "ps_google_base_category` WHERE name LIKE '%" . $this->db->escape($data['filter_name']) . "%' ORDER BY name ASC";
@@ -68,6 +83,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
         return $query->rows;
     }
 
+    /**
+     * @return void
+     */
     public function addCategory($data): void
     {
         $this->db->query("DELETE FROM " . DB_PREFIX . "ps_google_base_category_to_category WHERE category_id = '" . (int) $data['category_id'] . "'");
@@ -75,11 +93,17 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
         $this->db->query("INSERT INTO " . DB_PREFIX . "ps_google_base_category_to_category SET google_base_category_id = '" . (int) $data['google_base_category_id'] . "', category_id = '" . (int) $data['category_id'] . "'");
     }
 
+    /**
+     * @return void
+     */
     public function deleteCategory($category_id): void
     {
         $this->db->query("DELETE FROM " . DB_PREFIX . "ps_google_base_category_to_category WHERE category_id = '" . (int) $category_id . "'");
     }
 
+    /**
+     * @return array
+     */
     public function getCategories($data = []): array
     {
         $sql = "SELECT google_base_category_id, (SELECT name FROM `" . DB_PREFIX . "ps_google_base_category` gbc WHERE gbc.google_base_category_id = gbc2c.google_base_category_id) AS google_base_category, category_id, (SELECT name FROM `" . DB_PREFIX . "category_description` cd WHERE cd.category_id = gbc2c.category_id AND cd.language_id = '" . (int) $this->config->get('config_language_id') . "') AS category FROM `" . DB_PREFIX . "ps_google_base_category_to_category` gbc2c ORDER BY google_base_category ASC";
@@ -101,6 +125,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
         return $query->rows;
     }
 
+    /**
+     * @return int
+     */
     public function getTotalCategories(): int
     {
         $query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "ps_google_base_category_to_category`");
