@@ -22,6 +22,7 @@ $_['entry_category']               = 'Category';
 $_['entry_data_feed_url']          = 'Data Feed Url';
 $_['entry_status']                 = 'Status';
 $_['entry_currency']               = 'Currency';
+$_['entry_skip_out_of_stock']      = 'Skip Out of Stock';
 
 // Error
 $_['error_permission']             = 'Warning: You do not have permission to modify Google Base feed!';

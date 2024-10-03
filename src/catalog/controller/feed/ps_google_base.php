@@ -41,9 +41,8 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         }
 
 
-        // Initialize XMLWriter
         $xml = new \XMLWriter();
-        $xml->openMemory(); // Or use openURI('php://output') for direct output or file path for file writing
+        $xml->openMemory();
         $xml->startDocument('1.0', 'UTF-8');
 
         // Start <rss> element
@@ -76,7 +75,13 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                 if (!in_array($product['product_id'], $product_data) && $product['description']) {
                     $product_data[] = $product['product_id'];
 
-                    // Start <item> element
+                    if (
+                        $this->config->get('feed_ps_google_base_skip_out_of_stock') &&
+                        0 === (int) $product['quantity']
+                    ) {
+                        continue;
+                    }
+
                     $xml->startElement('item');
 
                     // Add product details with CDATA for name, description, manufacturer
