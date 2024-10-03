@@ -64,7 +64,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
      */
     public function getGoogleBaseCategories($data = []): array
     {
-        $sql = "SELECT * FROM `" . DB_PREFIX . "ps_google_base_category` WHERE name LIKE '%" . $this->db->escape($data['filter_name']) . "%' ORDER BY name ASC";
+        $sql = "SELECT * FROM `" . DB_PREFIX . "ps_google_base_category` WHERE name LIKE '" . $this->db->escape($data['filter_name']) . "' ORDER BY name ASC";
 
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
