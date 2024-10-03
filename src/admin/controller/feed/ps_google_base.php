@@ -51,8 +51,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
             $data['data_feed_urls'][$language['language_id']] = HTTP_CATALOG . 'index.php?route=extension/ps_google_base/feed/ps_google_base&language=' . $language['code'];
         }
 
-        $data['feed_ps_google_base_status'] = $this->config->get('feed_ps_google_base_status');
-        $data['feed_ps_google_base_currency'] = $this->config->get('feed_ps_google_base_currency');
+        $data['feed_ps_google_base_status']            = $this->config->get('feed_ps_google_base_status');
+        $data['feed_ps_google_base_currency']          = $this->config->get('feed_ps_google_base_currency');
+        $data['feed_ps_google_base_skip_out_of_stock'] = $this->config->get('feed_ps_google_base_skip_out_of_stock');
 
         $this->load->model('localisation/currency');
 
@@ -291,7 +292,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
             $this->load->model('extension/ps_google_base/feed/ps_google_base');
 
             $filter_data = [
-                'filter_name' => '%' . $this->request->get['filter_name'] . '%',
+                'filter_name' => '%' . trim($this->request->get['filter_name']) . '%',
                 'start'       => 0,
                 'limit'       => 5
             ];
