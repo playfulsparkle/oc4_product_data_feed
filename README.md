@@ -1,17 +1,21 @@
 # Playful Sparkle - Google Base
 
-A **Google Merchant feed** is a crucial structured data file that provides Google with essential information about your products, enabling them to be displayed prominently in Google Shopping and other Google services. This feed includes vital product details such as titles, descriptions, images, prices, and availability. By optimizing your Google Merchant feed, you can significantly boost your product visibility, attract more customers, and drive increased traffic to your online store.
+The **Playful Sparkle - Google Base** extension allows OpenCart 4 users to effortlessly export products to Google Merchant Center in XML format. This tool enhances product visibility on Google Shopping, making it easier for potential customers to discover and purchase your products.
 
-The **Playful Sparkle - Google Base** is an OpenCart 4 feed extension meticulously designed to streamline the creation and management of your Google Merchant product feed. This extension simplifies the process of associating Google product categories with your store's product categories, ensuring accurate mapping and enhanced visibility in search results. By generating a comprehensive XML feed tailored for Google Merchant, this extension guarantees that your products are easily accessible to potential customers, ultimately helping you maximize your online sales and grow your business.
+The extension simplifies the integration with Google Merchant Center, automating product feed management and enhancing online presence in the competitive market. Streamline your operations and boost sales with this essential tool for OpenCart 4!
+
+## What is Google Merchant Center?
+[Google Merchant Center](https://merchants.google.com) is a platform for retailers to upload product listings, allowing them to appear in Google Shopping and Google Ads. It helps increase visibility, optimize targeted advertising, and provides valuable analytics to improve your marketing strategies.
 
 ---
 
 ## Features
 
 ### Playful Sparkle - Google Base
-- **Comprehensive XML Feed Generation**: Creates a detailed Google Merchant product feed in XML format for your OpenCart store, ready for submission to Google.
-- **Category Association**: Easily associate Google product categories with your shop's categories for precise mapping and improved search visibility.
-- **Flexible Currency Options**: Choose or change the currency for the generated feed to suit your business needs.
+- **Skip Out of Stock Products:** Exclude unavailable items from your feed for a better customer experience.
+- **Currency Selection:** Display prices in your chosen currency for different markets.
+- **Multi-Language Support:** Create product feeds in various languages to reach diverse customer bases.
+- **Language-Specific Feed Submission:** Choose which language-specific feed to submit to Google Merchant Center.
 - **User-Friendly Setup**: Enjoy a seamless setup process through the OpenCart interface, designed for ease of use and efficiency.
 - **Full Compatibility**: Fully compatible with OpenCart v4.x, ensuring smooth integration with your existing setup.
 

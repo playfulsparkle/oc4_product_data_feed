@@ -1,6 +1,8 @@
 # Playful Sparkle - Google Base
 
-The Playful Sparkle - Google Base is an OpenCart 4 extension that simplifies the creation and management of your Google Merchant product feed. It facilitates the association of Google product categories with your store's categories for accurate mapping and improved visibility, generating a comprehensive XML feed that ensures your products are easily accessible to potential customers.
+The Playful Sparkle - Google Base extension allows OpenCart 4 users to export products to Google Merchant Center in XML format. This tool improves product visibility on Google Shopping, making it easier for potential customers to find and buy your products.
+
+The extension simplifies integration with Google Merchant Center, automating product feed management and enhancing your online presence. Streamline your operations and boost sales with this essential tool for OpenCart 4.
 
 For more information, visit the extension GitHub page at https://github.com/playfulsparkle/oc4_google_base.git.
 
@@ -9,11 +11,12 @@ Demo backend - https://demo.playfulsparkle.com/opencart4/admin/
 
 Key Features
 
-* Generates a comprehensive Google Merchant product feed in XML format for your OpenCart store, ready for submission to Google.
-* Easily associate Google product categories with your shop's categories for precise mapping and improved search visibility.
-* Flexible currency options allow you to choose or change the currency for the generated feed.
-* User-friendly setup process through the OpenCart interface, designed for ease of use and efficiency.
-* Fully compatible with OpenCart versions 4.x, ensuring smooth integration with your existing setup.
+* Skip Out of Stock Products: Exclude unavailable items from your feed for a better customer experience.
+* Currency Selection: Display prices in your chosen currency for different markets.
+* Multi-Language Support: Create product feeds in various languages to reach diverse customer bases.
+* Language-Specific Feed Submission: Choose which language-specific feed to submit to Google Merchant Center.
+* User-Friendly Setup: Enjoy a seamless setup process through the OpenCart interface, designed for ease of use and efficiency.
+* Full Compatibility: Fully compatible with OpenCart v4.x, ensuring smooth integration with your existing setup.
 
 Installation Guide
 
