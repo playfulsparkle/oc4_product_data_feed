@@ -10,6 +10,7 @@ $_['text_add_category_success']    = 'Erfolg: Sie haben die Kategoriezusammenfü
 $_['text_remove_category_success'] = 'Erfolg: Sie haben die Kategoriezusammenführung erfolgreich entfernt!';
 $_['text_edit']                    = 'Google Base bearbeiten';
 $_['text_import']                  = 'Um die neueste Liste der Google-Kategorien herunterzuladen, <a href="https://support.google.com/merchants/answer/160081?hl=en" target="_blank" class="alert-link">klicken Sie hier</a>, und wählen Sie die Taxonomie mit numerischen Identifikatoren in einer einfachen Textdatei (.txt). Laden Sie dann die heruntergeladene Datei mit der grünen taste hoch.';
+$_['text_authentication']          = 'Authentifizierung';
 
 // Column
 $_['column_google_category']       = 'Google Kategorie';
@@ -22,6 +23,8 @@ $_['entry_category']               = 'Kategorie';
 $_['entry_data_feed_url']          = 'Daten-Feed-URL';
 $_['entry_status']                 = 'Status';
 $_['entry_currency']               = 'Währung';
+$_['entry_login']                  = 'Benutzername';
+$_['entry_password']               = 'Passwort';
 $_['entry_skip_out_of_stock']      = 'Ausverkaufte Artikel überspringen';
 
 // Error

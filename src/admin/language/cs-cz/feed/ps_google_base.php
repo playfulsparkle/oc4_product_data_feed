@@ -10,6 +10,7 @@ $_['text_add_category_success']    = 'Úspěch: Úspěšně jste přidali asocia
 $_['text_remove_category_success'] = 'Úspěch: Úspěšně jste odstranili asociaci kategorie!';
 $_['text_edit']                    = 'Upravit Google Base';
 $_['text_import']                  = 'Pro stažení nejnovějšího seznamu kategorií Google <a href="https://support.google.com/merchants/answer/160081?hl=en" target="_blank" class="alert-link">klikněte sem</a> a vyberte taxonomii s číselnými identifikátory v textovém (.txt) souboru. Poté soubor nahrajte pomocí zeleného tlačítka.';
+$_['text_authentication']          = 'Ověřování';
 
 // Column
 $_['column_google_category']       = 'Kategorie Google';
@@ -22,6 +23,8 @@ $_['entry_category']               = 'Kategorie';
 $_['entry_data_feed_url']          = 'URL datového feedu';
 $_['entry_status']                 = 'Stav';
 $_['entry_currency']               = 'Měna';
+$_['entry_login']                  = 'Uživatelské jméno';
+$_['entry_password']               = 'Heslo';
 $_['entry_skip_out_of_stock']      = 'Přeskočit vyprodáno';
 
 // Error

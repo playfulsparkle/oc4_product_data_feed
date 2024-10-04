@@ -16,9 +16,27 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
             return;
         }
 
-        if (empty($this->config->get('feed_ps_google_base_currency'))) {
-            return;
+        if ($this->config->get('feed_ps_google_base_login') && $this->config->get('feed_ps_google_base_password')) {
+            header('Cache-Control: no-cache, must-revalidate, max-age=0');
+
+            if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
+                header('WWW-Authenticate: Basic realm="ps_google_base"');
+                header('HTTP/1.1 401 Unauthorized');
+                echo 'Invalid credentials';
+                exit;
+            } else {
+                if (
+                    $_SERVER['PHP_AUTH_USER'] !== $this->config->get('feed_ps_google_base_login') ||
+                    $_SERVER['PHP_AUTH_PW'] !== $this->config->get('feed_ps_google_base_password')
+                ) {
+                    header('WWW-Authenticate: Basic realm="ps_google_base"');
+                    header('HTTP/1.1 401 Unauthorized');
+                    echo 'Invalid credentials';
+                    exit;
+                }
+            }
         }
+
 
         $this->load->model('extension/ps_google_base/feed/ps_google_base');
         $this->load->model('catalog/category');

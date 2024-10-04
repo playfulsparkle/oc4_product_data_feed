@@ -10,6 +10,7 @@ $_['text_add_category_success']    = 'Siker: Sikeresen hozzáadta a kategória-a
 $_['text_remove_category_success'] = 'Siker: Sikeresen eltávolította a kategória-asszociációt!';
 $_['text_edit']                    = 'Google Base szerkesztése';
 $_['text_import']                  = 'A legfrissebb Google kategóriák lista letöltéséhez <a href="https://support.google.com/merchants/answer/160081?hl=en" target="_blank" class="alert-link">kattintson ide</a>, és válassza a taxonómiát numerikus azonosítókkal rendelkező sima szöveg (.txt) fájlt. Ezután a letöltött fájlt töltse fel a zöld gomb segítségével.';
+$_['text_authentication']          = 'Hitelesítés';
 
 // Column
 $_['column_google_category']       = 'Google Kategória';
@@ -22,6 +23,8 @@ $_['entry_category']               = 'Kategória';
 $_['entry_data_feed_url']          = 'Adatfeed URL';
 $_['entry_status']                 = 'Állapot';
 $_['entry_currency']               = 'Pénznem';
+$_['entry_login']                  = 'Felhasználónév';
+$_['entry_password']               = 'Jelszó';
 $_['entry_skip_out_of_stock']      = 'Kihagyás, ha nincs készleten';
 
 // Error

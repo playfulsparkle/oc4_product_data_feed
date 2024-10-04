@@ -54,6 +54,8 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $data['feed_ps_google_base_status']            = $this->config->get('feed_ps_google_base_status');
         $data['feed_ps_google_base_currency']          = $this->config->get('feed_ps_google_base_currency');
         $data['feed_ps_google_base_skip_out_of_stock'] = $this->config->get('feed_ps_google_base_skip_out_of_stock');
+        $data['feed_ps_google_base_login']             = $this->config->get('feed_ps_google_base_login');
+        $data['feed_ps_google_base_password']          = $this->config->get('feed_ps_google_base_password');
 
         $this->load->model('localisation/currency');
 
