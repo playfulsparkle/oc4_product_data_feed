@@ -75,6 +75,10 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                 if (!in_array($product['product_id'], $product_data) && $product['description']) {
                     $product_data[] = $product['product_id'];
 
+                    if (0 === (int) $product['status']) {
+                        continue;
+                    }
+
                     if (
                         $this->config->get('feed_ps_google_base_skip_out_of_stock') &&
                         0 === (int) $product['quantity']
