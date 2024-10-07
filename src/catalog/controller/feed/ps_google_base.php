@@ -166,6 +166,19 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                     if ((float) $product['special']) {
                         $formatted_price = $this->currency->format($this->tax->calculate($product['special'], $product['tax_class_id']), $currency_code, $currency_value, false);
                         $xml->writeElement('g:sale_price', $formatted_price . ' ' . $currency_code);
+
+                        $sale_dates = $this->model_extension_ps_google_base_feed_ps_google_base->getSpecialPriceDatesByProductId($product['product_id']);
+
+                        if (
+                            isset($sale_dates['date_start'], $sale_dates['date_end']) &&
+                            $sale_dates['date_start'] !== '0000-00-00' &&
+                            $sale_dates['date_end'] !== '0000-00-00'
+                        ) {
+                            $sale_start_date = date('Y-m-d\TH:iO', strtotime($sale_dates['date_start'] . ' 00:00:00'));
+                            $sale_end_date = date('Y-m-d\TH:iO', strtotime($sale_dates['date_end'] . ' 23:59:59'));
+
+                            $xml->writeElement('g:sale_price_effective_date', $sale_start_date . '/' . $sale_end_date);
+                        }
                     }
 
                     // Google product category

@@ -26,4 +26,24 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
 
         return $query->row['total'];
     }
+
+    /**
+     * @param int $product_id
+     *
+     * @return array
+     */
+    public function getSpecialPriceDatesByProductId(int $product_id): array
+    {
+        $query = $this->db->query("SELECT `date_start`, `date_end` FROM `" . DB_PREFIX . "product_special` WHERE `product_id` = '" . (int) $product_id . "' AND `customer_group_id` = '" . (int) $this->config->get('config_customer_group_id') . "' AND ((`date_start` = '0000-00-00' OR `date_start` < NOW()) AND (`date_end` = '0000-00-00' OR `date_end` > NOW()))");
+
+        if ($query->num_rows) {
+            return [
+                'date_start' => $query->row['date_start'],
+                'date_end' => $query->row['date_end']
+            ];
+        }
+
+        return [];
+    }
+
 }
