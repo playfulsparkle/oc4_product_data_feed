@@ -50,36 +50,6 @@
 						</div>
 					</div>
 
-					<div class="accordion" id="accordion-security">
-
-						<div class="accordion-item">
-							<h2 class="accordion-header"><button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-authentication">{{ text_authentication }}</button></h2>
-
-							<div id="collapse-authentication" class="accordion-collapse collapse" data-bs-parent="#accordion-security">
-								<div class="accordion-body">
-
-									<div class="row mb-3">
-										<label class="col-sm-2 col-form-label" for="input-login">{{ entry_login }}</label>
-										<div class="col-sm-10">
-											<input type="text" name="feed_ps_google_base_login" value="{{ feed_ps_google_base_login }}" placeholder="{{ entry_login }}" class="form-control" id="input-login">
-										</div>
-									</div>
-
-									<div class="row mb-3">
-										<label class="col-sm-2 col-form-label" for="input-password">{{ entry_password }}</label>
-										<div class="col-sm-10">
-											<input type="password" name="feed_ps_google_base_password" value="{{ feed_ps_google_base_password }}" placeholder="{{ entry_password }}" class="form-control" id="input-password">
-										</div>
-									</div>
-
-								</div>
-							</div>
-						</div>
-
-					</div>
-
-					<hr />
-
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label" for="input-skip-out-of-stock">{{ entry_skip_out_of_stock }}</label>
 						<div class="col-sm-10">
@@ -99,6 +69,100 @@
 								<option value="{{ currency.code }}" {% if feed_ps_google_base_currency==currency.code %} selected="selected" {% endif %}>{{ currency.title }}</option>
 								{% endfor %}
 							</select>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label" for="input-tax-status">{{ entry_tax }}</label>
+						<div class="col-sm-10">
+							<div class="form-check form-switch form-switch-lg">
+								<input type="hidden" name="feed_ps_google_base_tax" value="0" />
+								<input type="checkbox" name="feed_ps_google_base_tax" value="1" class="form-check-input" {% if feed_ps_google_base_tax %} checked{% endif %} id="input-tax-status" />
+							</div>
+						</div>
+					</div>
+
+					<fieldset class="row mb-3" id="tax-group"{% if feed_ps_google_base_tax == 0 %} style="display: none;"{% endif %}>
+						<legend>{{ text_tax_deffinitions }}</legend>
+
+						<div class="table-responsive">
+							<table id="tax-table" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<td class="text-start">{{ entry_country }}</td>
+										<td class="text-start">{{ entry_region }}</td>
+										<td class="text-start">{{ entry_tax_rate }}</td>
+										<td class="text-start">{{ entry_tax_ship }}</td>
+										<td></td>
+									</tr>
+								</thead>
+								<tbody>
+									{% for tax in feed_ps_google_base_taxes %}
+									<tr id="tax-row-{{ loop.index0 }}">
+										<td class="text-start">
+											<input type="text" name="feed_ps_google_base_taxes[{{ loop.index0 }}][country]" value="{{ tax.country }}" placeholder="{{ entry_country }}" data-oc-target="autocomplete-tax-country-{{ loop.index0 }}" id="input-tax-country-{{ loop.index0 }}" class="form-control" autocomplete="off" />
+											<input type="hidden" name="feed_ps_google_base_taxes[{{ loop.index0 }}][country_id]" value="{{ tax.country_id }}" id="input-tax-country-id-{{ loop.index0 }}" class="form-control" />
+											<ul id="autocomplete-tax-country-{{ loop.index0 }}" class="dropdown-menu"></ul>
+											<div id="error-input-tax-country-{{ loop.index0 }}" class="invalid-feedback"></div>
+										</td>
+										<td class="text-start">
+											<input type="text" name="feed_ps_google_base_taxes[{{ loop.index0 }}][region]" value="{{ tax.region }}" id="input-tax-region-{{ loop.index0 }}" placeholder="{{ entry_region }}" maxlength="2" class="form-control" />
+											<div id="error-input-tax-region-{{ loop.index0 }}" class="invalid-feedback"></div>
+										</td>
+										<td class="text-start">
+											<select name="feed_ps_google_base_taxes[{{ loop.index0 }}][tax_rate_id]" id="input-tax-rate-id-{{ loop.index0 }}" class="form-select">
+												{% for tax_rate in tax_rates %}
+												<option value="{{ tax_rate.tax_rate_id }}" {% if tax_rate.tax_rate_id == tax.tax_rate_id %} selected{% endif %}>{{ tax_rate.name }}</option>
+												{% endfor %}
+											</select>
+											<div id="error-input-tax-rate-id-{{ loop.index0 }}" class="invalid-feedback"></div>
+										</td>
+										<td class="text-start">
+											<div class="form-check form-switch form-switch-lg">
+												<input type="hidden" name="feed_ps_google_base_taxes[{{ loop.index0 }}][tax_ship]" value="0" />
+												<input type="checkbox" name="feed_ps_google_base_taxes[{{ loop.index0 }}][tax_ship]" value="1" class="form-check-input" {% if tax.tax_ship %} checked{% endif %} id="input-tax-ship-{{ loop.index0 }}" />
+											</div>
+										</td>
+										<td class="text-end"><button type="button" onclick="$('#tax-row-{{ loop.index0 }}').remove();" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>
+									</tr>
+									{% endfor %}
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="6" class="text-end"><button type="button" id="button-tax" data-bs-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa-solid fa-plus-circle"></i></button></td>
+									</tr>
+							</table>
+						</div>
+
+					</fieldset>
+
+					<div class="row mb-3">
+						<div class="accordion" id="accordion-security">
+
+							<div class="accordion-item">
+								<h2 class="accordion-header"><button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-authentication">{{ text_authentication }}</button></h2>
+
+								<div id="collapse-authentication" class="accordion-collapse collapse" data-bs-parent="#accordion-security">
+									<div class="accordion-body">
+
+										<div class="row mb-3">
+											<label class="col-sm-2 col-form-label" for="input-login">{{ entry_login }}</label>
+											<div class="col-sm-10">
+												<input type="text" name="feed_ps_google_base_login" value="{{ feed_ps_google_base_login }}" placeholder="{{ entry_login }}" class="form-control" id="input-login">
+											</div>
+										</div>
+
+										<div class="row mb-3">
+											<label class="col-sm-2 col-form-label" for="input-password">{{ entry_password }}</label>
+											<div class="col-sm-10">
+												<input type="password" name="feed_ps_google_base_password" value="{{ feed_ps_google_base_password }}" placeholder="{{ entry_password }}" class="form-control" id="input-password">
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+
 						</div>
 					</div>
 
@@ -138,6 +202,104 @@
 		</div>
 	</div>
 	<script>
+		//
+
+		$(document).on('focus', 'input[id^="input-tax-rate"]', function () {
+			var $this = $(this);
+			var $this_id = $(this).next('input[id^="input-tax-rate-value"]');
+
+			$this.autocomplete({
+				'source': function (request, response) {
+					$.ajax({
+						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.taxrateautocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+						dataType: 'json',
+						success: function (json) {
+							response($.map(json, function (item) {
+								return {
+									label: item['name'],
+									value: item['rate']
+								}
+							}));
+						}
+					});
+				},
+				'select': function (item) {
+					$this.val(item['label']);
+					$this_id.val(item['value']);
+				}
+			});
+		});
+
+		$(document).on('focus', 'input[id^="input-tax-country"]', function () {
+			var $this = $(this);
+			var $this_id = $(this).next('input[id^="input-tax-country-id"]');
+
+			$this.autocomplete({
+				'source': function (request, response) {
+					$.ajax({
+						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.countryautocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+						dataType: 'json',
+						success: function (json) {
+							response($.map(json, function (item) {
+								return {
+									label: item['name'],
+									value: item['iso_code_2']
+								}
+							}));
+						}
+					});
+				},
+				'select': function (item) {
+					$this.val(item['label']);
+					$this_id.val(item['value']);
+				}
+			});
+		});
+
+		$('#input-tax-status').on('change', function () {
+			var taxGroup = $('#tax-group');
+
+			if ($(this).prop('checked')) {
+				taxGroup.fadeIn();
+			} else {
+				taxGroup.fadeOut();
+			}
+		});
+
+		var tax_row = {{ feed_ps_google_base_taxes|length }};
+
+		$('#button-tax').on('click', function () {
+			var html = '<tr id="tax-row-' + tax_row + '">';
+			html += '	<td class="text-start">';
+			html += '		<input type="text" name="feed_ps_google_base_taxes[' + tax_row + '][country]" value="{{ tax.country }}" placeholder="{{ entry_country }}" data-oc-target="autocomplete-tax-country-' + tax_row + '" id="input-tax-country-' + tax_row + '" class="form-control" autocomplete="off" />';
+			html += '		<input type="hidden" name="feed_ps_google_base_taxes[' + tax_row + '][country_id]" value="{{ tax.country_id }}" id="input-tax-country-id-' + tax_row + '" class="form-control" />';
+			html += '		<ul id="autocomplete-tax-country-' + tax_row + '" class="dropdown-menu"></ul>';
+			html += '		<div id="error-input-tax-country-' + tax_row + '" class="invalid-feedback"></div>';
+			html += '	</td>';
+			html += '	<td class="text-start">';
+			html += '		<input type="text" name="feed_ps_google_base_taxes[' + tax_row + '][region]" value="{{ tax.region }}" id="input-tax-region-' + tax_row + '" placeholder="{{ entry_region }}" maxlength="2" class="form-control" />';
+			html += '		<div id="error-input-tax-region-' + tax_row + '" class="invalid-feedback"></div>';
+			html += '	</td>';
+			html += '	<td class="text-start">';
+			html += '	<select name="feed_ps_google_base_taxes[' + tax_row + '][tax_rate_id]" id="input-tax-rate-id-' + tax_row + '" class="form-select">';
+			html += '		{% for tax_rate in tax_rates %}<option value="{{ tax_rate.tax_rate_id }}" {% if tax_rate.tax_rate_id == tax.tax_rate_id %} selected{% endif %}>{{ tax_rate.name }}</option>{% endfor %}';
+			html += '	</select>';
+			html += '	<div id="error-input-tax-rate-id-' + tax_row + '" class="invalid-feedback"></div>';
+			html += '	</td>';
+			html += '	<td class="text-start">';
+			html += '		<div class="form-check form-switch form-switch-lg">';
+			html += '			<input type="hidden" name="feed_ps_google_base_taxes[' + tax_row + '][tax_ship]" value="0" />';
+			html += '			<input type="checkbox" name="feed_ps_google_base_taxes[' + tax_row + '][tax_ship]" value="1" class="form-check-input" {% if tax.tax_ship %} checked{% endif %} id="input-tax-ship-' + tax_row + '" />';
+			html += '		</div>';
+			html += '	</td>';
+			html += '	<td class="text-end"><button type="button" onclick="$(\'#tax-row-' + tax_row + '\').remove();" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>';
+			html += '</tr>';
+
+			$('#tax-table tbody').append(html);
+
+			tax_row++;
+		});
+
 		window.addEventListener("load", (event) => {
 			var btns = document.querySelectorAll('.btn-copy');
 

@@ -51,11 +51,29 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
             $data['data_feed_urls'][$language['language_id']] = HTTP_CATALOG . 'index.php?route=extension/ps_google_base/feed/ps_google_base&language=' . $language['code'];
         }
 
-        $data['feed_ps_google_base_status']            = $this->config->get('feed_ps_google_base_status');
-        $data['feed_ps_google_base_currency']          = $this->config->get('feed_ps_google_base_currency');
+        $data['feed_ps_google_base_status'] = $this->config->get('feed_ps_google_base_status');
+        $data['feed_ps_google_base_currency'] = $this->config->get('feed_ps_google_base_currency');
         $data['feed_ps_google_base_skip_out_of_stock'] = $this->config->get('feed_ps_google_base_skip_out_of_stock');
-        $data['feed_ps_google_base_login']             = $this->config->get('feed_ps_google_base_login');
-        $data['feed_ps_google_base_password']          = $this->config->get('feed_ps_google_base_password');
+        $data['feed_ps_google_base_login'] = $this->config->get('feed_ps_google_base_login');
+        $data['feed_ps_google_base_password'] = $this->config->get('feed_ps_google_base_password');
+        $data['feed_ps_google_base_tax'] = $this->config->get('feed_ps_google_base_tax');
+        $data['feed_ps_google_base_taxes'] = $this->config->get('feed_ps_google_base_taxes');
+
+        $this->load->model('localisation/tax_rate');
+
+        $tax_rates = $this->model_localisation_tax_rate->getTaxRates();
+
+        $data['tax_rates'][] = [
+            'tax_rate_id' => '',
+            'name'        => $this->language->get('text_select'),
+        ];
+
+        foreach ($tax_rates as $tax_rate) {
+            $data['tax_rates'][] = [
+                'tax_rate_id' => $tax_rate['tax_rate_id'],
+                'name'        => $tax_rate['name'],
+            ];
+        }
 
         $this->load->model('localisation/currency');
 
@@ -80,6 +98,49 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
     }
 
     /**
+     * Retrieves a list of countries based on a name filter for autocomplete functionality.
+     *
+     * This method checks for a 'filter_name' parameter in the request. If present, it uses
+     * this value to filter the countries. It loads the country model to fetch the filtered
+     * list of countries, returning only the first five results. The method constructs a JSON
+     * response containing the names and ISO codes of the matched countries.
+     *
+     * @return void
+     */
+    public function countryautocomplete(): void
+    {
+        $json = [];
+
+        if (isset($this->request->get['filter_name'])) {
+            $filter_name = trim($this->request->get['filter_name']);
+        } else {
+            $filter_name = '';
+        }
+
+        if (oc_strlen($filter_name) > 0) {
+            $this->load->model('localisation/country');
+
+            $filter_data = [
+                'filter_name' => $filter_name,
+                'start' => 0,
+                'limit' => 5,
+            ];
+
+            $results = $this->model_localisation_country->getCountries($filter_data);
+
+            foreach ($results as $key => $value) {
+                $json[] = [
+                    'name' => $value['name'],
+                    'iso_code_2' => $value['iso_code_2'],
+                ];
+            }
+        }
+
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
+
+    /**
      * @return void
      */
     public function save(): void
@@ -91,8 +152,24 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         if (!$this->user->hasPermission('modify', 'extension/ps_google_base/feed/ps_google_base')) {
             $json['error'] = $this->language->get('error_permission');
         } else {
-            if (empty($this->request->post['feed_ps_google_base_currency'])) {
+            if (oc_strlen(trim($this->request->post['feed_ps_google_base_currency'])) === 0) {
                 $json['error'] = $this->language->get('error_currency');
+            }
+
+            if (isset($this->request->post['feed_ps_google_base_tax'])) {
+                foreach ($this->request->post['feed_ps_google_base_taxes'] as $row_id => $data) {
+                    if (oc_strlen(trim($data['country'])) === 0 || oc_strlen(trim($data['country_id'])) === 0) {
+                        $json['error']['input-tax-country-' . $row_id] = $this->language->get('error_tax_country');
+                    }
+
+                    if (oc_strlen(trim($data['region'])) === 0) {
+                        $json['error']['input-tax-region-' . $row_id] = $this->language->get('error_tax_region');
+                    }
+
+                    if (oc_strlen(trim($data['tax_rate_id'])) === 0) {
+                        $json['error']['input-tax-rate-id-' . $row_id] = $this->language->get('error_tax_rate_id');
+                    }
+                }
             }
         }
 
@@ -214,9 +291,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         foreach ($results as $result) {
             $data['google_base_categories'][] = [
                 'google_base_category_id' => $result['google_base_category_id'],
-                'google_base_category'    => $result['google_base_category'],
-                'category_id'             => $result['category_id'],
-                'category'                => $result['category']
+                'google_base_category' => $result['google_base_category'],
+                'category_id' => $result['category_id'],
+                'category' => $result['category']
             ];
         }
 
@@ -225,9 +302,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
         $data['pagination'] = $this->load->controller('common/pagination', [
             'total' => $category_total,
-            'page'  => $page,
+            'page' => $page,
             'limit' => $limit,
-            'url'   => $this->url->link('extension/ps_google_base/feed/ps_google_base.category', 'user_token=' . $this->session->data['user_token'] . '&page={page}')
+            'url' => $this->url->link('extension/ps_google_base/feed/ps_google_base.category', 'user_token=' . $this->session->data['user_token'] . '&page={page}')
         ]);
 
         $data['results'] = sprintf($this->language->get('text_pagination'), ($category_total) ? (($page - 1) * 10) + 1 : 0, ((($page - 1) * 10) > ($category_total - 10)) ? $category_total : ((($page - 1) * 10) + 10), $category_total, ceil($category_total / 10));
@@ -295,8 +372,8 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
             $filter_data = [
                 'filter_name' => '%' . trim($this->request->get['filter_name']) . '%',
-                'start'       => 0,
-                'limit'       => 5
+                'start' => 0,
+                'limit' => 5
             ];
 
             $results = $this->model_extension_ps_google_base_feed_ps_google_base->getGoogleBaseCategories($filter_data);
@@ -304,7 +381,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
             foreach ($results as $result) {
                 $json[] = [
                     'google_base_category_id' => $result['google_base_category_id'],
-                    'name'                    => $result['name']
+                    'name' => $result['name']
                 ];
             }
         }

@@ -46,4 +46,14 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
         return [];
     }
 
+	/**
+	 * @param int $tax_rate_id
+	 *
+	 * @return array
+	 */
+	public function getTaxRate(int $tax_rate_id): array {
+		$query = $this->db->query("SELECT tr.`tax_rate_id`, tr.`name` AS name, tr.`rate`, tr.`type`, tr.`geo_zone_id`, gz.`name` AS geo_zone, tr.`date_added`, tr.`date_modified` FROM `" . DB_PREFIX . "tax_rate` tr LEFT JOIN `" . DB_PREFIX . "geo_zone` gz ON (tr.`geo_zone_id` = gz.`geo_zone_id`) WHERE tr.`tax_rate_id` = '" . (int)$tax_rate_id . "'");
+
+		return $query->row;
+	}
 }

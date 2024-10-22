@@ -78,6 +78,22 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $link = $this->url->link('common/home', 'language=' . $language);
         $xml->writeElement('link', str_replace('&amp;', '&', $link));
 
+        $tax_status = $this->config->get('feed_ps_google_base_tax');
+        $taxes = [];
+
+        foreach ($this->config->get('feed_ps_google_base_taxes') as $config_tax) {
+            $tax_rate_info = $this->model_extension_ps_google_base_feed_ps_google_base->getTaxRate($config_tax['tax_rate_id']);
+
+            if ($tax_rate_info) {
+                $taxes[] = [
+                    'country_id' => $config_tax['country_id'],
+                    'region' => $config_tax['region'],
+                    'tax_rate' => $tax_rate_info['rate'],
+                    'tax_ship' => $config_tax['tax_ship'],
+                ];
+            }
+        }
+
         $product_data = [];
         $google_base_categories = $this->model_extension_ps_google_base_feed_ps_google_base->getCategories();
 
@@ -157,14 +173,24 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
                     // Currency handling
                     $currency_code = $this->config->get('feed_ps_google_base_currency');
-                    $currency_value = $this->currency->getValue($currency_code);
+                    // $currency_value = $this->currency->getValue($currency_code);
 
                     // Price (handling special price if available)
-                    $formatted_price = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id']), $currency_code, $currency_value, false);
+                    if ($tax_status) {
+                        $formatted_price = $product['price'];
+                    } else {
+                        $formatted_price = $this->tax->calculate($product['price'], $product['tax_class_id']);
+                    }
+
                     $xml->writeElement('g:price', $formatted_price . ' ' . $currency_code);
 
                     if ((float) $product['special']) {
-                        $formatted_price = $this->currency->format($this->tax->calculate($product['special'], $product['tax_class_id']), $currency_code, $currency_value, false);
+                        if ($tax_status) {
+                            $formatted_price = $product['special'];
+                        } else {
+                            $formatted_price = $this->tax->calculate($product['special'], $product['tax_class_id']);
+                        }
+
                         $xml->writeElement('g:sale_price', $formatted_price . ' ' . $currency_code);
 
                         $sale_dates = $this->model_extension_ps_google_base_feed_ps_google_base->getSpecialPriceDatesByProductId($product['product_id']);
@@ -180,6 +206,21 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                             $xml->writeElement('g:sale_price_effective_date', $sale_start_date . '/' . $sale_end_date);
                         }
                     }
+
+                    #region <g:tax> element
+                    if ($tax_status) {
+                        foreach ($taxes as $tax) {
+                            $xml->startElement('g:tax');
+
+                            $xml->writeElement('g:country', $tax['country_id']);
+                            $xml->writeElement('g:region', $tax['region']);
+                            $xml->writeElement('g:rate', $tax['tax_rate']);
+                            $xml->writeElement('g:tax_ship', $tax['tax_ship'] ? 'yes' : 'no');
+
+                            $xml->endElement();
+                        }
+                    }
+                    #endregion <g:tax> element
 
                     // Google product category
                     $xml->writeElement('g:google_product_category', $google_base_category['google_base_category']);
