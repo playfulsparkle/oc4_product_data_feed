@@ -56,7 +56,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $data['feed_ps_google_base_skip_out_of_stock'] = $this->config->get('feed_ps_google_base_skip_out_of_stock');
         $data['feed_ps_google_base_login'] = $this->config->get('feed_ps_google_base_login');
         $data['feed_ps_google_base_password'] = $this->config->get('feed_ps_google_base_password');
-        $data['feed_ps_google_base_tax'] = $this->config->get('feed_ps_google_base_tax');
+        $data['feed_ps_google_base_tax'] = (int) $this->config->get('feed_ps_google_base_tax');
         $data['feed_ps_google_base_taxes'] = $this->config->get('feed_ps_google_base_taxes');
 
         $this->load->model('localisation/tax_rate');
