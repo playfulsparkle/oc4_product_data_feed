@@ -8,6 +8,13 @@ namespace Opencart\Admin\Model\Extension\PSGoogleBase\Feed;
 class PSGoogleBase extends \Opencart\System\Engine\Model
 {
     /**
+     * Installs the necessary database tables for the Google Base extension.
+     *
+     * This method creates two tables: `ps_google_base_category` for storing
+     * Google Base category information and `ps_google_base_category_to_category`
+     * for mapping Google Base categories to internal category IDs. The tables
+     * are created with the appropriate structure and indexes.
+     *
      * @return void
      */
     public function install(): void
@@ -31,6 +38,11 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
     }
 
     /**
+     * Uninstalls the Google Base extension by dropping its database tables.
+     *
+     * This method removes the tables `ps_google_base_category` and
+     * `ps_google_base_category_to_category` from the database if they exist.
+     *
      * @return void
      */
     public function uninstall(): void
@@ -40,6 +52,13 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
     }
 
     /**
+     * Imports Google Base categories from a string input.
+     *
+     * This method deletes all existing records in the `ps_google_base_category` table
+     * and then parses the provided string input to extract Google Base category data.
+     * Each line should contain a Google Base category ID and name separated by " - ".
+     *
+     * @param string $string The input string containing category data.
      * @return void
      */
     public function import($string): void
@@ -60,7 +79,14 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
     }
 
     /**
-     * @return array
+     * Retrieves Google Base categories with optional filtering.
+     *
+     * This method retrieves categories from the `ps_google_base_category` table
+     * that match the specified filter name. It supports pagination through the
+     * `start` and `limit` parameters in the provided data array.
+     *
+     * @param array $data Optional filtering parameters.
+     * @return array An array of matching Google Base categories.
      */
     public function getGoogleBaseCategories($data = []): array
     {
@@ -84,6 +110,13 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
     }
 
     /**
+     * Adds a mapping between a Google Base category and an internal category.
+     *
+     * This method removes any existing mapping for the specified category ID and
+     * then inserts a new mapping between the provided Google Base category ID and
+     * the internal category ID.
+     *
+     * @param array $data An array containing 'google_base_category_id' and 'category_id'.
      * @return void
      */
     public function addCategory($data): void
@@ -94,6 +127,12 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
     }
 
     /**
+     * Deletes a mapping for the specified category ID.
+     *
+     * This method removes any mapping entries from the `ps_google_base_category_to_category`
+     * table that are associated with the given category ID.
+     *
+     * @param int $category_id The ID of the category to be deleted from mappings.
      * @return void
      */
     public function deleteCategory($category_id): void
@@ -102,7 +141,15 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
     }
 
     /**
-     * @return array
+     * Retrieves all category mappings with optional pagination.
+     *
+     * This method retrieves mappings from the `ps_google_base_category_to_category`
+     * table and joins it with the `ps_google_base_category` and `category_description`
+     * tables to fetch the corresponding category names. It supports pagination through
+     * the `start` and `limit` parameters in the provided data array.
+     *
+     * @param array $data Optional pagination parameters.
+     * @return array An array of category mappings.
      */
     public function getCategories($data = []): array
     {
@@ -126,7 +173,12 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
     }
 
     /**
-     * @return int
+     * Gets the total count of category mappings.
+     *
+     * This method returns the total number of mappings stored in the
+     * `ps_google_base_category_to_category` table.
+     *
+     * @return int The total number of category mappings.
      */
     public function getTotalCategories(): int
     {

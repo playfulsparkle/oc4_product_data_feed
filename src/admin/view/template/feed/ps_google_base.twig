@@ -61,18 +61,6 @@
 					</div>
 
 					<div class="row mb-3">
-						<label class="col-sm-2 col-form-label" for="input-currency">{{ entry_currency }}</label>
-						<div class="col-sm-10">
-							<select name="feed_ps_google_base_currency" id="input-currency" class="form-control">
-								<option value="">{{ text_select }}</option>
-								{% for currency in currencies %}
-								<option value="{{ currency.code }}" {% if feed_ps_google_base_currency==currency.code %} selected="selected" {% endif %}>{{ currency.title }}</option>
-								{% endfor %}
-							</select>
-						</div>
-					</div>
-
-					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label" for="input-tax-status">{{ entry_tax }}</label>
 						<div class="col-sm-10">
 							<div class="form-check form-switch form-switch-lg">
@@ -111,6 +99,7 @@
 										</td>
 										<td class="text-start">
 											<select name="feed_ps_google_base_taxes[{{ loop.index0 }}][tax_rate_id]" id="input-tax-rate-id-{{ loop.index0 }}" class="form-select">
+												<option value="">{{ text_select }}</option>
 												{% for tax_rate in tax_rates %}
 												<option value="{{ tax_rate.tax_rate_id }}" {% if tax_rate.tax_rate_id == tax.tax_rate_id %} selected{% endif %}>{{ tax_rate.name }}</option>
 												{% endfor %}
@@ -282,6 +271,7 @@
 			html += '	</td>';
 			html += '	<td class="text-start">';
 			html += '	<select name="feed_ps_google_base_taxes[' + tax_row + '][tax_rate_id]" id="input-tax-rate-id-' + tax_row + '" class="form-select">';
+			html += '	<option value="">{{ text_select }}</option>';
 			html += '		{% for tax_rate in tax_rates %}<option value="{{ tax_rate.tax_rate_id }}" {% if tax_rate.tax_rate_id == tax.tax_rate_id %} selected{% endif %}>{{ tax_rate.name }}</option>{% endfor %}';
 			html += '	</select>';
 			html += '	<div id="error-input-tax-rate-id-' + tax_row + '" class="invalid-feedback"></div>';

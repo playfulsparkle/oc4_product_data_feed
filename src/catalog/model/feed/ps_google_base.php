@@ -8,7 +8,18 @@ namespace Opencart\Catalog\Model\Extension\PSGoogleBase\Feed;
 class PSGoogleBase extends \Opencart\System\Engine\Model
 {
     /**
-     * @return array
+     * Retrieves all categories associated with Google Base categories.
+     *
+     * This method queries the database to get a list of categories
+     * linked to Google Base categories along with their names in the
+     * current language. The results are sorted by the Google Base
+     * category name in ascending order.
+     *
+     * @return array An array of categories with the following keys:
+     *               - google_base_category_id: ID of the Google Base category
+     *               - google_base_category: Name of the Google Base category
+     *               - category_id: ID of the associated category
+     *               - category: Name of the associated category
      */
     public function getCategories(): array
     {
@@ -18,7 +29,13 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
     }
 
     /**
-     * @return int
+     * Gets the total number of Google Base categories.
+     *
+     * This method queries the database to count the total number of
+     * records in the `ps_google_base_category_to_category` table,
+     * which represents the number of Google Base categories.
+     *
+     * @return int The total number of Google Base categories.
      */
     public function getTotalCategories(): int
     {
@@ -28,9 +45,19 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
     }
 
     /**
-     * @param int $product_id
+     * Retrieves the special price dates for a specific product.
      *
-     * @return array
+     * This method fetches the start and end dates for special pricing
+     * associated with the given product ID. It checks if the special
+     * price is currently active based on the customer group ID and the
+     * validity of the date range.
+     *
+     * @param int $product_id The ID of the product to fetch special price dates for.
+     *
+     * @return array An associative array containing:
+     *               - date_start: The start date of the special price
+     *               - date_end: The end date of the special price
+     *               If no active special price is found, an empty array is returned.
      */
     public function getSpecialPriceDatesByProductId(int $product_id): array
     {
@@ -46,14 +73,29 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
         return [];
     }
 
-	/**
-	 * @param int $tax_rate_id
-	 *
-	 * @return array
-	 */
-	public function getTaxRate(int $tax_rate_id): array {
-		$query = $this->db->query("SELECT tr.`tax_rate_id`, tr.`name` AS name, tr.`rate`, tr.`type`, tr.`geo_zone_id`, gz.`name` AS geo_zone, tr.`date_added`, tr.`date_modified` FROM `" . DB_PREFIX . "tax_rate` tr LEFT JOIN `" . DB_PREFIX . "geo_zone` gz ON (tr.`geo_zone_id` = gz.`geo_zone_id`) WHERE tr.`tax_rate_id` = '" . (int)$tax_rate_id . "'");
+    /**
+     * Retrieves the tax rate information for a given tax rate ID.
+     *
+     * This method queries the database to get details of the specified
+     * tax rate, including its name, rate, type, associated geo zone,
+     * and dates of addition/modification.
+     *
+     * @param int $tax_rate_id The ID of the tax rate to retrieve.
+     *
+     * @return array An associative array containing the tax rate details:
+     *               - tax_rate_id: The ID of the tax rate
+     *               - name: The name of the tax rate
+     *               - rate: The tax rate percentage
+     *               - type: The type of tax
+     *               - geo_zone_id: The ID of the geo zone
+     *               - geo_zone: The name of the geo zone
+     *               - date_added: The date the tax rate was added
+     *               - date_modified: The date the tax rate was last modified
+     */
+    public function getTaxRate(int $tax_rate_id): array
+    {
+        $query = $this->db->query("SELECT tr.`tax_rate_id`, tr.`name` AS name, tr.`rate`, tr.`type`, tr.`geo_zone_id`, gz.`name` AS geo_zone, tr.`date_added`, tr.`date_modified` FROM `" . DB_PREFIX . "tax_rate` tr LEFT JOIN `" . DB_PREFIX . "geo_zone` gz ON (tr.`geo_zone_id` = gz.`geo_zone_id`) WHERE tr.`tax_rate_id` = '" . (int) $tax_rate_id . "'");
 
-		return $query->row;
-	}
+        return $query->row;
+    }
 }

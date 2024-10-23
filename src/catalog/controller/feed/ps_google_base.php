@@ -8,6 +8,17 @@ namespace Opencart\Catalog\Controller\Extension\PSGoogleBase\Feed;
 class PSGoogleBase extends \Opencart\System\Engine\Controller
 {
     /**
+     * Generates and outputs an XML feed for Google Merchant using the configured product details.
+     *
+     * This method checks the feed status and validates user authentication
+     * before loading product data and constructing an XML document. The XML
+     * feed includes essential product details like title, description,
+     * price, availability, and categorization as required by Google Merchant.
+     *
+     * It supports basic authentication for access control and returns a
+     * 401 Unauthorized status if the credentials are invalid. The generated
+     * XML feed adheres to the Google Merchant feed specifications.
+     *
      * @return void
      */
     public function index(): void
@@ -78,6 +89,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $link = $this->url->link('common/home', 'language=' . $language);
         $xml->writeElement('link', str_replace('&amp;', '&', $link));
 
+        $currency_code = $this->config->get('config_currency');
         $tax_status = $this->config->get('feed_ps_google_base_tax');
         $taxes = [];
 
@@ -95,6 +107,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         }
 
         $product_data = [];
+
         $google_base_categories = $this->model_extension_ps_google_base_feed_ps_google_base->getCategories();
 
         foreach ($google_base_categories as $google_base_category) {
@@ -130,7 +143,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                     $xml->writeElement('link', $this->url->link('product/product', 'language=' . $language . '&product_id=' . $product['product_id']));
 
                     $xml->startElement('description');
-                    $xml->writeCData(strip_tags(html_entity_decode($product['description'], ENT_QUOTES, 'UTF-8')));
+                    $xml->writeCData($this->normalizeDescription($product['description']));
                     $xml->endElement();
 
                     if (isset($product['manufacturer'])) {
@@ -170,10 +183,6 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                     if ($product['ean']) {
                         $xml->writeElement('g:ean', $product['ean']);
                     }
-
-                    // Currency handling
-                    $currency_code = $this->config->get('feed_ps_google_base_currency');
-                    // $currency_value = $this->currency->getValue($currency_code);
 
                     // Price (handling special price if available)
                     if ($tax_status) {
@@ -279,7 +288,21 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
     }
 
     /**
-     * @return string
+     * Recursively retrieves the path of a category based on its parent ID.
+     *
+     * This method constructs the full path of a category by concatenating the
+     * category IDs from the specified category to its root parent. The path is
+     * built in reverse order, starting from the specified category and moving
+     * up to the top-level parent category.
+     *
+     * @param int $parent_id The ID of the parent category to retrieve the path for.
+     * @param string $current_path (optional) The current path being constructed.
+     *                             Defaults to an empty string. This is used in the
+     *                             recursive calls to build the full path.
+     *
+     * @return string Returns the constructed path of category IDs, separated by underscores.
+     *                If the category does not exist or if there is no valid path,
+     *                it returns an empty string.
      */
     protected function getPath($parent_id, $current_path = ''): string
     {
@@ -302,5 +325,44 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         }
 
         return '';
+    }
+
+    /**
+     * Normalizes the product description by decoding HTML entities,
+     * stripping unallowed HTML tags, normalizing whitespace,
+     * trimming the text, and ensuring it does not exceed the maximum length.
+     *
+     * This method processes the input description to make it safe for
+     * use in a Google Merchant feed by allowing only specific HTML tags
+     * and applying various cleaning operations. If the resulting
+     * description exceeds 5000 characters, it is truncated to this limit.
+     *
+     * @param string $description The raw product description to normalize.
+     *
+     * @return string Returns the cleaned and normalized product description,
+     *                with allowed HTML tags, normalized whitespace, and a
+     *                maximum length of 5000 characters.
+     */
+    private function normalizeDescription(string $description): string
+    {
+        // Decode HTML entities
+        $description = html_entity_decode($description, ENT_QUOTES, 'UTF-8');
+
+        // Allowable HTML tags
+        $allowed_tags = '<b><strong><i><em><u><br><ul><li><ol><p>';
+        $description = strip_tags($description, $allowed_tags);
+
+        // Normalize whitespace
+        $description = preg_replace(['/[\r\n\t]+/', '/\s+/'], [' ', ' '], $description);
+
+        // Trim the description
+        $description = trim($description);
+
+        // Check for maximum length
+        if (oc_strlen($description) > 5000) {
+            $description = oc_substr($description, 0, 5000); // Truncate to 5000 characters
+        }
+
+        return $description;
     }
 }
