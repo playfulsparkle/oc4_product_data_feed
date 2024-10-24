@@ -93,16 +93,20 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $tax_status = $this->config->get('feed_ps_google_base_tax');
         $taxes = [];
 
-        foreach ($this->config->get('feed_ps_google_base_taxes') as $config_tax) {
-            $tax_rate_info = $this->model_extension_ps_google_base_feed_ps_google_base->getTaxRate($config_tax['tax_rate_id']);
+        $config_taxes = $this->config->get('feed_ps_google_base_taxes');
 
-            if ($tax_rate_info) {
-                $taxes[] = [
-                    'country_id' => $config_tax['country_id'],
-                    'region' => $config_tax['region'],
-                    'tax_rate' => $tax_rate_info['rate'],
-                    'tax_ship' => $config_tax['tax_ship'],
-                ];
+        if (is_array($config_taxes)) {
+            foreach ($config_taxes as $config_tax) {
+                $tax_rate_info = $this->model_extension_ps_google_base_feed_ps_google_base->getTaxRate($config_tax['tax_rate_id']);
+
+                if ($tax_rate_info) {
+                    $taxes[] = [
+                        'country_id' => $config_tax['country_id'],
+                        'region' => $config_tax['region'],
+                        'tax_rate' => $tax_rate_info['rate'],
+                        'tax_ship' => $config_tax['tax_ship'],
+                    ];
+                }
             }
         }
 

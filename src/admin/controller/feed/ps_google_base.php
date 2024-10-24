@@ -175,7 +175,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         if (!$this->user->hasPermission('modify', 'extension/ps_google_base/feed/ps_google_base')) {
             $json['error'] = $this->language->get('error_permission');
         } else {
-            if (isset($this->request->post['feed_ps_google_base_tax'])) {
+            if (isset($this->request->post['feed_ps_google_base_tax'], $this->request->post['feed_ps_google_base_taxes'])) {
                 foreach ($this->request->post['feed_ps_google_base_taxes'] as $row_id => $data) {
                     if (oc_strlen(trim($data['country'])) === 0 || oc_strlen(trim($data['country_id'])) === 0) {
                         $json['error']['input-tax-country-' . $row_id] = $this->language->get('error_tax_country');
