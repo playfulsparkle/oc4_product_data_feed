@@ -120,7 +120,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
             $filter_name = '';
         }
 
-        if (oc_strlen($filter_name) > 0) {
+        if ($this->_strlen($filter_name) > 0) {
             $this->load->model('localisation/country');
 
             $filter_data = [
@@ -177,15 +177,15 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         } else {
             if (isset($this->request->post['feed_ps_google_base_tax'], $this->request->post['feed_ps_google_base_taxes'])) {
                 foreach ($this->request->post['feed_ps_google_base_taxes'] as $row_id => $data) {
-                    if (oc_strlen(trim($data['country'])) === 0 || oc_strlen(trim($data['country_id'])) === 0) {
+                    if ($this->_strlen(trim($data['country'])) === 0 || $this->_strlen(trim($data['country_id'])) === 0) {
                         $json['error']['input-tax-country-' . $row_id] = $this->language->get('error_tax_country');
                     }
 
-                    if (oc_strlen(trim($data['region'])) === 0) {
+                    if ($this->_strlen(trim($data['region'])) === 0) {
                         $json['error']['input-tax-region-' . $row_id] = $this->language->get('error_tax_region');
                     }
 
-                    if (oc_strlen(trim($data['tax_rate_id'])) === 0) {
+                    if ($this->_strlen(trim($data['tax_rate_id'])) === 0) {
                         $json['error']['input-tax-rate-id-' . $row_id] = $this->language->get('error_tax_rate_id');
                     }
                 }
@@ -476,5 +476,32 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
+    }
+
+    /**
+     * Get the length of a string while ensuring compatibility across OpenCart versions.
+     *
+     * This method returns the length of the provided string. It utilizes different
+     * string length functions based on the OpenCart version being used to ensure
+     * accurate handling of UTF-8 characters.
+     *
+     * - For OpenCart versions before 4.0.1.0, it uses `utf8_strlen()`.
+     * - For OpenCart versions from 4.0.1.0 up to (but not including) 4.0.2.0,
+     *   it uses `\Opencart\System\Helper\Utf8\strlen()`.
+     * - For OpenCart version 4.0.2.0 and above, it uses `oc_strlen()`.
+     *
+     * @param string $value The input string whose length is to be calculated.
+     *
+     * @return int The length of the input string.
+     */
+    private function _strlen(string $value): int
+    {
+        if (version_compare(VERSION, '4.0.1.0', '<')) { // OpenCart versions before 4.0.1.0
+            return utf8_strlen($value);
+        } elseif (version_compare(VERSION, '4.0.2.0', '<')) { // OpenCart version 4.0.1.0 up to, but not including, 4.0.2.0
+            return \Opencart\System\Helper\Utf8\strlen($value);
+        }
+
+        return oc_strlen($value); // OpenCart version 4.0.2.0 and above
     }
 }

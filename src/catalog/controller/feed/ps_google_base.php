@@ -363,10 +363,67 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $description = trim($description);
 
         // Check for maximum length
-        if (oc_strlen($description) > 5000) {
-            $description = oc_substr($description, 0, 5000); // Truncate to 5000 characters
+        if ($this->_strlen($description) > 5000) {
+            $description = $this->_substr($description, 0, 5000); // Truncate to 5000 characters
         }
 
         return $description;
     }
+
+    /**
+     * Get the length of a string while ensuring compatibility across OpenCart versions.
+     *
+     * This method returns the length of the provided string. It utilizes different
+     * string length functions based on the OpenCart version being used to ensure
+     * accurate handling of UTF-8 characters.
+     *
+     * - For OpenCart versions before 4.0.1.0, it uses `utf8_strlen()`.
+     * - For OpenCart versions from 4.0.1.0 up to (but not including) 4.0.2.0,
+     *   it uses `\Opencart\System\Helper\Utf8\strlen()`.
+     * - For OpenCart version 4.0.2.0 and above, it uses `oc_strlen()`.
+     *
+     * @param string $value The input string whose length is to be calculated.
+     *
+     * @return int The length of the input string.
+     */
+    private function _strlen(string $value): int
+    {
+        if (version_compare(VERSION, '4.0.1.0', '<')) { // OpenCart versions before 4.0.1.0
+            return utf8_strlen($value);
+        } elseif (version_compare(VERSION, '4.0.2.0', '<')) { // OpenCart version 4.0.1.0 up to, but not including, 4.0.2.0
+            return \Opencart\System\Helper\Utf8\strlen($value);
+        }
+
+        return oc_strlen($value); // OpenCart version 4.0.2.0 and above
+    }
+
+    /**
+     * Get a substring from a string while ensuring compatibility across OpenCart versions.
+     *
+     * This method returns a portion of the provided string. It utilizes different
+     * substring functions based on the OpenCart version being used to ensure
+     * accurate handling of UTF-8 characters.
+     *
+     * - For OpenCart versions before 4.0.1.0, it uses `utf8_substr()`.
+     * - For OpenCart versions from 4.0.1.0 up to (but not including) 4.0.2.0,
+     *   it uses `\Opencart\System\Helper\Utf8\substr()`.
+     * - For OpenCart version 4.0.2.0 and above, it uses `substr()`.
+     *
+     * @param string $value The input string from which to extract the substring.
+     * @param int $start The starting position of the substring.
+     * @param int|null $length The length of the substring (optional).
+     *
+     * @return string The extracted substring.
+     */
+    private function _substr(string $value, int $start, ?int $length = null): string
+    {
+        if (version_compare(VERSION, '4.0.1.0', '<')) { // OpenCart versions before 4.0.1.0
+            return utf8_substr($value, $start, $length);
+        } elseif (version_compare(VERSION, '4.0.2.0', '<')) { // OpenCart version 4.0.1.0 up to, but not including, 4.0.2.0
+            return \Opencart\System\Helper\Utf8\substr($value, $start, $length);
+        }
+
+        return substr($value, $start, $length); // OpenCart version 4.0.2.0 and above
+    }
+
 }
