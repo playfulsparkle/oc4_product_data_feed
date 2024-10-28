@@ -1,6 +1,11 @@
 <?php
 // Heading
 $_['heading_title']                = 'Playful Sparkle - Google Base';
+$_['heading_getting_started']      = 'Začíname';
+$_['heading_setup']                = 'Nastavenie Google Base';
+$_['heading_troubleshot']          = 'Bežné problémy';
+$_['heading_faq']                  = 'Často kladené otázky';
+$_['heading_contact']              = 'Kontaktujte podporu';
 
 // Text
 $_['text_extension']               = 'Rozšírenia';
@@ -12,6 +17,11 @@ $_['text_edit']                    = 'Upraviť Google Base';
 $_['text_import']                  = 'Na stiahnutie najnovšieho zoznamu kategórií Google <a href="https://support.google.com/merchants/answer/160081?hl=sk" target="_blank" class="alert-link">kliknite sem</a>, a vyberte taxonómiu s číselnými identifikátormi v prostom textovom (.txt) súbore. Potom nahrajte stiahnutý súbor pomocou zeleného tlačidla.';
 $_['text_authentication']          = 'Overovanie';
 $_['text_tax_deffinitions']        = 'Definície daní';
+$_['text_getting_started']         = '<p><strong>Prehľad:</strong> Rozšírenie "Google Base" pre OpenCart 4 umožňuje používateľom bez námahy exportovať svoje produkty do Google Merchant Center vo formáte XML. Tento zásadný nástroj zvyšuje viditeľnosť produktov na Google Shopping, čím uľahčuje potenciálnym zákazníkom ich objavovanie a nákup.</p><p><strong>Požiadavky:</strong> Na využitie tohto rozšírenia sa uistite, že máte nainštalovaný a nakonfigurovaný OpenCart 4. Okrem toho je potrebný aktívny účet Google Merchant Center na efektívne spravovanie vašich produktových zoznamov.</p>';
+$_['text_setup']                   = '<p><strong>Nastavenie Google Base:</strong> Na nastavenie rozšírenia Google Base postupujte podľa týchto krokov:</p><p>Stiahnite si najnovší zoznam kategórií Google z <a href="https://support.google.com/merchants/answer/160081?hl=en">podpory Google Merchant Center</a>.</p><p>Prepojte kategórie svojho e-shopu s príslušnými kategóriami Google.</p><p>Nakonfigurujte rozšírenie tak, aby preskočilo produkty, ktoré sú vypredané, ak si to prajete.</p><p>Použite ceny bez dane vo feede aktivovaním príslušnej možnosti a prispôsobte definície daní podľa potreby.</p>';
+$_['text_troubleshot']             = '<p><strong>Riešenie problémov:</strong></p><p>Ak narazíte na problémy, zvážte nasledujúce bežné ťažkosti:</p><p><strong>Kategórie Google sa nezobrazujú:</strong> Uistite sa, že ste si stiahli najnovší zoznam kategórií Google a importovali ho do svojho systému. To je nevyhnutné pre správne prepojenie medzi vaším e-shopom a Google Merchant Center.</p><p><strong>Žiadny výstup produktového feedu:</strong> Potvrďte, že je rozšírenie Google Base povolené vo vašej administratívnej časti OpenCart. Ak je povolené a stále nevidíte žiadny výstup, skontrolujte nastavenia rozšírenia na prípadné nesprávne konfigurácie.</p><p><strong>Produkty sa nezobrazujú v Google Merchant Center:</strong> Overte, že sú vaše produkty správne kategorizované a že v údajoch o produktoch nie sú žiadne chyby. Uistite sa, že dodržiavate zásady Google Merchant Center týkajúce sa produktových zoznamov.</p>';
+$_['text_faq']                     = '<details><summary>Čo je rozšírenie Google Base?</summary><p>Rozšírenie Google Base pomáha používateľom OpenCart 4 exportovať údaje o svojich produktoch do Google Merchant Center, čím zvyšuje viditeľnosť na Google Shopping.</p></details><details><summary>Ako môžem aktivovať rozšírenie Google Base?</summary><p>Rozšírenie môžete aktivovať z administratívnej časti OpenCart v sekcii Rozšírenia. Uistite sa, že nastavíte potrebné konfigurácie.</p></details><details><summary>Môžem si prispôsobiť svoj produktový feed?</summary><p>Áno, rozšírenie vám umožňuje prispôsobiť rôzne nastavenia, vrátane použitia cien bez dane a definícií daní, čím zabezpečíte, že váš feed vyhovuje vašim potrebám.</p></details><details><summary>Prečo sa môj produktový feed nezobrazuje v Google Merchant Center?</summary><p>Uistite sa, že je rozšírenie Google Base povolené a že sú vaše produktové kategórie správne prepojené s kategóriami Google. Okrem toho skontrolujte, či v konfigurácii vášho feedu nie sú žiadne chyby.</p></details>';
+$_['text_contact']                 = '<p>Pre ďalšiu pomoc prosím kontaktujte náš tím podpory:</p><ul><li><strong>Kontakt:</strong> <a href="mailto:%s">%s</a></li><li><strong>Dokumentácia:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">Dokumentácia pre používateľov</a></li></ul>';
 
 // Column
 $_['column_google_category']       = 'Kategória Google';
