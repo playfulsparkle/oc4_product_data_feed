@@ -1,6 +1,9 @@
 <?php
 // Heading
 $_['heading_title']                = 'Playful Sparkle - Google Base';
+$_['heading_categories']           = 'Asociace kategorií';
+$_['heading_authentication']       = 'Ověřování';
+$_['heading_tax_deffinitions']     = 'Definice daní';
 $_['heading_getting_started']      = 'Začínáme';
 $_['heading_setup']                = 'Nastavení Google Base';
 $_['heading_troubleshot']          = 'Běžné problémy';
@@ -15,8 +18,6 @@ $_['text_add_category_success']    = 'Úspěch: Úspěšně jste přidali asocia
 $_['text_remove_category_success'] = 'Úspěch: Úspěšně jste odstranili asociaci kategorie!';
 $_['text_edit']                    = 'Upravit Google Base';
 $_['text_import']                  = 'Pro stažení nejnovějšího seznamu kategorií Google <a href="https://support.google.com/merchants/answer/160081?hl=cs" target="_blank" rel="external noopener noreferrer" class="alert-link">klikněte sem</a> a vyberte taxonomii s číselnými identifikátory v textovém (.txt) souboru. Poté soubor nahrajte pomocí zeleného tlačítka.';
-$_['text_authentication']          = 'Ověřování';
-$_['text_tax_deffinitions']        = 'Definice daní';
 $_['text_getting_started']         = '<p><strong>Přehled:</strong> Rozšíření "Google Base" pro OpenCart 4 umožňuje uživatelům snadno exportovat své produkty do <a href="https://merchants.google.com" target="_blank" rel="external noopener noreferrer">Google Merchant Center</a> ve formátu XML. Tento nezbytný nástroj zvyšuje viditelnost produktů na Google Nákupy, což usnadňuje jejich objevování a nákup potenciálními zákazníky.</p><p><strong>Požadavky:</strong> Pro využití tohoto rozšíření se ujistěte, že máte nainstalovaný a nakonfigurovaný OpenCart 4. Dále je vyžadován aktivní účet Google Merchant Center pro efektivní správu vašich produktových seznamů.</p>';
 $_['text_setup']                   = '<ul><li>Stáhněte si nejnovější seznam kategorií Google z <a href="https://support.google.com/merchants/answer/160081?hl=cs" target="_blank" rel="external noopener noreferrer">nápovědy Google Merchant Center</a>.</li><li>Přiřaďte kategorie vašeho webového obchodu k odpovídajícím kategoriím Google.</li><li>Pokud si to přejete, nakonfigurujte rozšíření tak, aby vynechalo produkty, které nejsou skladem.</li><li>Používejte ceny bez DPH ve feedu tím, že aktivujete příslušnou volbu, a přizpůsobte definice daně podle potřeby.</li></ul>';
 $_['text_troubleshot']             = '<ul><li><strong>Kategorie Google se nezobrazují:</strong> Ujistěte se, že jste stáhli nejnovější seznam kategorií Google a importovali je do vašeho systému. To je nezbytné pro správné mapování mezi vaším webovým obchodem a Google Merchant Center.</li><li><strong>Žádný výstup produktového feedu:</strong> Ověřte, že je rozšíření Google Base povoleno v administračním panelu OpenCart. Pokud je povoleno a stále nevidíte žádný výstup, zkontrolujte nastavení rozšíření na možné chyby konfigurace.</li><li><strong>Produkty se nezobrazují v Google Merchant Center:</strong> Ověřte, že jsou vaše produkty správně kategorizovány a že neexistují chyby v datech vašich produktů. Ujistěte se, že splňujete zásady Google Merchant Center týkající se seznamů produktů.</li></ul>';
@@ -29,8 +30,8 @@ $_['column_category']              = 'Kategorie';
 $_['column_action']                = 'Akce';
 
 // Tab
-$_['tab_general']             = 'Obecné nastavení';
-$_['tab_help_and_support']    = 'Pomoc a podpora';
+$_['tab_general']                  = 'Obecné nastavení';
+$_['tab_help_and_support']         = 'Pomoc a podpora';
 
 // Entry
 $_['entry_google_category']        = 'Kategorie Google';

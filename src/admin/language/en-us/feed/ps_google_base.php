@@ -1,6 +1,9 @@
 <?php
 // Heading
 $_['heading_title']                = 'Playful Sparkle - Google Base';
+$_['heading_categories']           = 'Category Associations';
+$_['heading_authentication']       = 'Authentication';
+$_['heading_tax_deffinitions']     = 'Tax definitions';
 $_['heading_getting_started']      = 'Getting Started';
 $_['heading_setup']                = 'Setting Up Google Base';
 $_['heading_troubleshot']          = 'Common Troubleshooting';
@@ -15,8 +18,6 @@ $_['text_add_category_success']    = 'Success: You have successfully added categ
 $_['text_remove_category_success'] = 'Success: You have successfully removed category association!';
 $_['text_edit']                    = 'Edit Google Base';
 $_['text_import']                  = 'To download the latest list of Google categories, <a href="https://support.google.com/merchants/answer/160081?hl=en" target="_blank" rel="external noopener noreferrer" class="alert-link">click here</a> and select the taxonomy with numeric IDs in a Plain Text (.txt) file. Then, upload the downloaded file using the green button.';
-$_['text_authentication']          = 'Authentication';
-$_['text_tax_deffinitions']        = 'Tax definitions';
 $_['text_getting_started']         = '<p><strong>Overview:</strong> The "Google Base" extension for OpenCart 4 allows users to effortlessly export their products to <a href="https://merchants.google.com" target="_blank" rel="external noopener noreferrer">Google Merchant Center</a> in XML format. This essential tool enhances product visibility on Google Shopping, facilitating easier discovery and purchase by potential customers.</p><p><strong>Requirements:</strong> To utilize this extension, ensure you have OpenCart 4 installed and configured. Additionally, an active Google Merchant Center account is required to manage your product listings effectively.</p>';
 $_['text_setup']                   = '<ul><li>Download the latest list of Google categories from <a href="https://support.google.com/merchants/answer/160081?hl=en" target="_blank" rel="external noopener noreferrer">Google Merchant Center Support</a>.</li><li>Associate your webshop categories with the appropriate Google categories.</li><li>Configure the extension to skip out-of-stock products if desired.</li><li>Use pre-tax prices in the feed by enabling the respective option and customize tax definitions accordingly.</li></ul>';
 $_['text_troubleshot']             = '<ul><li><strong>Google categories not displaying:</strong> Ensure you have downloaded the latest list of Google categories and imported them into your system. This is essential for proper mapping between your webshop and Google Merchant Center.</li><li><strong>No product feed output:</strong> Confirm that the Google Base extension is enabled in your OpenCart admin panel. If it is enabled and you still don\'t see any output, check the extension settings for any misconfigurations.</li><li><strong>Products not appearing in Google Merchant Center:</strong> Verify that your products are correctly categorized and that there are no errors in your product data. Ensure that you comply with Google Merchant Center policies regarding product listings.</li></ul>';
@@ -29,8 +30,8 @@ $_['column_category']              = 'Category';
 $_['column_action']                = 'Action';
 
 // Tab
-$_['tab_general']             = 'General settings';
-$_['tab_help_and_support']    = 'Help &amp; Support';
+$_['tab_general']                  = 'General settings';
+$_['tab_help_and_support']         = 'Help &amp; Support';
 
 // Entry
 $_['entry_google_category']        = 'Google Category';

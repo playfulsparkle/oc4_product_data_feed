@@ -1,6 +1,9 @@
 <?php
 // Heading
 $_['heading_title']                = 'Playful Sparkle - Google Base';
+$_['heading_categories']           = 'Kategória társítások';
+$_['heading_authentication']       = 'Hitelesítés';
+$_['heading_tax_deffinitions']     = 'Adódefiníciók';
 $_['heading_getting_started']      = 'Kezdő lépések';
 $_['heading_setup']                = 'Google Base beállítása';
 $_['heading_troubleshot']          = 'Gyakori hibakeresési lépések';
@@ -15,8 +18,6 @@ $_['text_add_category_success']    = 'Siker: Sikeresen hozzáadta a kategória-a
 $_['text_remove_category_success'] = 'Siker: Sikeresen eltávolította a kategória-asszociációt!';
 $_['text_edit']                    = 'Google Base szerkesztése';
 $_['text_import']                  = 'A legfrissebb Google kategóriák lista letöltéséhez <a href="https://support.google.com/merchants/answer/160081?hl=hu" target="_blank" rel="external noopener noreferrer" class="alert-link">kattintson ide</a>, és válassza a taxonómiát numerikus azonosítókkal rendelkező sima szöveg (.txt) fájlt. Ezután a letöltött fájlt töltse fel a zöld gomb segítségével.';
-$_['text_authentication']          = 'Hitelesítés';
-$_['text_tax_deffinitions']        = 'Adódefiníciók';
 $_['text_getting_started']         = '<p><strong>Áttekintés:</strong> A "Google Base" kiterjesztés az OpenCart 4-hez lehetővé teszi a felhasználók számára, hogy termékeiket könnyedén exportálják a <a href="https://merchants.google.com" target="_blank" rel="external noopener noreferrer">Google Merchant Center</a>be XML formátumban. Ez az alapvető eszköz növeli a termékek láthatóságát a Google Shoppingon, megkönnyítve ezzel a potenciális vásárlók számára a termékek felfedezését és megvásárlását.</p><p><strong>Követelmények:</strong> A kiterjesztés használatához győződjön meg arról, hogy az OpenCart 4 telepítve és konfigurálva van. Emellett aktív Google Merchant Center fiók szükséges a terméklisták hatékony kezeléséhez.</p>';
 $_['text_setup']                   = '<ul><li>Töltse le a legfrissebb Google kategóriák listáját a <a href="https://support.google.com/merchants/answer/160081?hl=hu" target="_blank" rel="external noopener noreferrer">Google Merchant Center Támogatás</a> oldaláról.</li><li>Kösse össze webshop kategóriáit a megfelelő Google kategóriákkal.</li><li>Állítsa be a kiterjesztést úgy, hogy kihagyja a készleten nem lévő termékeket, ha kívánja.</li><li>Használjon nettó árakat a feedben az adott opció engedélyezésével, és testreszabhatja az adódefiníciókat ennek megfelelően.</li></ul>';
 $_['text_troubleshot']             = '<ul><li><strong>Google kategóriák nem jelennek meg:</strong> Győződjön meg arról, hogy letöltötte a legfrissebb Google kategóriák listáját, és importálta azokat a rendszerébe. Ez elengedhetetlen a webshop és a Google Merchant Center közötti helyes térképezéshez.</li><li><strong>Nincs termék feed kimenet:</strong> Ellenőrizze, hogy a Google Base kiterjesztés engedélyezve van-e az OpenCart admin panelen. Ha engedélyezve van, és még mindig nem lát kimenetet, nézze át a kiterjesztés beállításait, hogy nincs-e hiba a konfigurációban.</li><li><strong>Termékek nem jelennek meg a Google Merchant Centerben:</strong> Ellenőrizze, hogy termékei helyesen kategorizálva vannak-e, és hogy nincsenek-e hibák a termékadataiban. Győződjön meg arról, hogy megfelel a Google Merchant Center terméklistázási irányelveinek.</li></ul>';
@@ -29,8 +30,8 @@ $_['column_category']              = 'Kategória';
 $_['column_action']                = 'Művelet';
 
 // Tab
-$_['tab_general']             = 'Általános beállítások';
-$_['tab_help_and_support']    = 'Segítség &amp; támogatás';
+$_['tab_general']                  = 'Általános beállítások';
+$_['tab_help_and_support']         = 'Segítség &amp; támogatás';
 
 // Entry
 $_['entry_google_category']        = 'Google Kategória';

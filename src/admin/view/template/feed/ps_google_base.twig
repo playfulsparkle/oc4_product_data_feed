@@ -34,29 +34,32 @@
 					<div class="tab-content">
 						<div id="tab-general" class="tab-pane active">
 
-							<div id="category"></div>
+							<fieldset class="border p-3 mb-3">
+								<legend>{{ heading_categories }}</legend>
 
-							<br />
+								<div id="category"></div>
 
-							<div class="row mb-3">
-								<label class="col-sm-2 col-form-label" for="input-google-category">{{ entry_google_category }}</label>
-								<div class="col-sm-10">
+								<div class="row mb-3">
+									<label class="col-sm-2 col-form-label" for="input-google-category">{{ entry_google_category }}</label>
+									<div class="col-sm-10">
 
-									<input type="text" name="google_base_category" value="" placeholder="{{ entry_google_category }}" id="input-google-category" data-oc-target="autocomplete-google-category" class="form-control" autocomplete="off" />
-									<ul id="autocomplete-google-category" class="dropdown-menu"></ul>
-									<input type="hidden" name="google_base_category_id" value="" />
+										<input type="text" name="google_base_category" value="" placeholder="{{ entry_google_category }}" id="input-google-category" data-oc-target="autocomplete-google-category" class="form-control" autocomplete="off" />
+										<ul id="autocomplete-google-category" class="dropdown-menu"></ul>
+										<input type="hidden" name="google_base_category_id" value="" />
 
-									<div class="input-group">
-										<input type="text" name="category" value="" placeholder="{{ entry_category }}" id="input-category" data-oc-target="autocomplete-category" class="form-control" autocomplete="off" />
-										<span class="input-group-btn">
-											<button type="button" id="button-category-add" data-toggle="tooltip" title="{{ button_category_add }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
-										</span>
+										<div class="input-group">
+											<input type="text" name="category" value="" placeholder="{{ entry_category }}" id="input-category" data-oc-target="autocomplete-category" class="form-control" autocomplete="off" />
+											<span class="input-group-btn">
+												<button type="button" id="button-category-add" data-toggle="tooltip" title="{{ button_category_add }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
+											</span>
+										</div>
+										<ul id="autocomplete-category" class="dropdown-menu"></ul>
+										<input type="hidden" name="category_id" value="" />
+
 									</div>
-									<ul id="autocomplete-category" class="dropdown-menu"></ul>
-									<input type="hidden" name="category_id" value="" />
-
 								</div>
-							</div>
+
+							</fieldset>
 
 							<div class="row mb-3">
 								<label class="col-sm-2 col-form-label" for="input-skip-out-of-stock">{{ entry_skip_out_of_stock }}</label>
@@ -79,7 +82,7 @@
 							</div>
 
 							<fieldset class="row mb-3" id="tax-group"{% if feed_ps_google_base_tax == 0 %} style="display: none;"{% endif %}>
-								<legend>{{ text_tax_deffinitions }}</legend>
+								<legend>{{ heading_tax_deffinitions }}</legend>
 
 								<div class="table-responsive">
 									<table id="tax-table" class="table table-bordered table-hover">
@@ -133,35 +136,24 @@
 
 							</fieldset>
 
-							<div class="row mb-3">
-								<div class="accordion" id="accordion-security">
+							<fieldset class="border p-3 mb-3">
+								<legend>{{ heading_authentication }}</legend>
 
-									<div class="accordion-item">
-										<h2 class="accordion-header"><button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-authentication">{{ text_authentication }}</button></h2>
-
-										<div id="collapse-authentication" class="accordion-collapse collapse" data-bs-parent="#accordion-security">
-											<div class="accordion-body">
-
-												<div class="row mb-3">
-													<label class="col-sm-2 col-form-label" for="input-login">{{ entry_login }}</label>
-													<div class="col-sm-10">
-														<input type="text" name="feed_ps_google_base_login" value="{{ feed_ps_google_base_login }}" placeholder="{{ entry_login }}" class="form-control" id="input-login">
-													</div>
-												</div>
-
-												<div class="row mb-3">
-													<label class="col-sm-2 col-form-label" for="input-password">{{ entry_password }}</label>
-													<div class="col-sm-10">
-														<input type="password" name="feed_ps_google_base_password" value="{{ feed_ps_google_base_password }}" placeholder="{{ entry_password }}" class="form-control" id="input-password">
-													</div>
-												</div>
-
-											</div>
-										</div>
+								<div class="row mb-3">
+									<label class="col-sm-2 col-form-label" for="input-login">{{ entry_login }}</label>
+									<div class="col-sm-10">
+										<input type="text" name="feed_ps_google_base_login" value="{{ feed_ps_google_base_login }}" placeholder="{{ entry_login }}" class="form-control" id="input-login">
 									</div>
-
 								</div>
-							</div>
+
+								<div class="row mb-3">
+									<label class="col-sm-2 col-form-label" for="input-password">{{ entry_password }}</label>
+									<div class="col-sm-10">
+										<input type="password" name="feed_ps_google_base_password" value="{{ feed_ps_google_base_password }}" placeholder="{{ entry_password }}" class="form-control" id="input-password">
+									</div>
+								</div>
+
+							</fieldset>
 
 							<div class="row mb-3">
 								<label class="col-sm-2 col-form-label">{{ entry_data_feed_url }}</label>
