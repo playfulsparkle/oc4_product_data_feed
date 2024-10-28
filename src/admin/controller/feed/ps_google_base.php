@@ -8,6 +8,16 @@ namespace Opencart\Admin\Controller\Extension\PSGoogleBase\Feed;
 class PSGoogleBase extends \Opencart\System\Engine\Controller
 {
     /**
+     * @var string The support email address.
+     */
+    const EXTENSION_EMAIL = 'support@playfulsparkle.com';
+
+    /**
+     * @var string The documentation URL for the extension.
+     */
+    const EXTENSION_DOC = 'https://github.com/playfulsparkle/oc4_google_base.git';
+
+    /**
      * Displays the Google Base feed settings page.
      *
      * This method initializes the settings page for the Google Base feed extension.
@@ -85,6 +95,8 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                 'name' => $tax_rate['name'],
             ];
         }
+
+        $data['text_contact'] = sprintf($this->language->get('text_contact'), self::EXTENSION_EMAIL, self::EXTENSION_EMAIL, self::EXTENSION_DOC);
 
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
