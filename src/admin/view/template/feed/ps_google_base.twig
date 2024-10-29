@@ -213,32 +213,6 @@
 		</div>
 	</div>
 	<script>
-		$(document).on('focus', 'input[id^="input-tax-rate"]', function () {
-			var $this = $(this);
-			var $this_id = $(this).next('input[id^="input-tax-rate-value"]');
-
-			$this.autocomplete({
-				'source': function (request, response) {
-					$.ajax({
-						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.taxrateautocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
-						dataType: 'json',
-						success: function (json) {
-							response($.map(json, function (item) {
-								return {
-									label: item['name'],
-									value: item['rate']
-								}
-							}));
-						}
-					});
-				},
-				'select': function (item) {
-					$this.val(item['label']);
-					$this_id.val(item['value']);
-				}
-			});
-		});
-
 		$(document).on('focus', 'input[id^="input-tax-country"]', function () {
 			var $this = $(this);
 			var $this_id = $(this).next('input[id^="input-tax-country-id"]');
