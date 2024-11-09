@@ -87,7 +87,6 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $link = $this->url->link('common/home', 'language=' . $language);
         $xml->writeElement('link', str_replace('&amp;', '&', $link));
 
-        $currency_code = $this->config->get('config_currency');
         $tax_status = $this->config->get('feed_ps_google_base_tax');
         $taxes = [];
 
@@ -193,7 +192,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                         $formatted_price = $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'));
                     }
 
-                    $xml->writeElement('g:price', $this->currency->format($formatted_price, $currency_code, 0, false) . ' ' . $currency_code);
+                    $xml->writeElement('g:price', $this->currency->format($formatted_price, $this->config->get('config_currency'), 0, false) . ' ' . $this->config->get('config_currency'));
 
                     if ((float) $product['special']) {
                         if ($tax_status) {
@@ -202,7 +201,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                             $formatted_price = $this->tax->calculate($product['special'], $product['tax_class_id'], $this->config->get('config_tax'));
                         }
 
-                        $xml->writeElement('g:sale_price', $this->currency->format($formatted_price, $currency_code, 0, false) . ' ' . $currency_code);
+                        $xml->writeElement('g:sale_price', $this->currency->format($formatted_price, $this->config->get('config_currency'), 0, false) . ' ' . $this->config->get('config_currency'));
 
                         $sale_dates = $this->model_extension_ps_google_base_feed_ps_google_base->getSpecialPriceDatesByProductId($product['product_id']);
 
