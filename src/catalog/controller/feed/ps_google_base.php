@@ -190,19 +190,19 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                     if ($tax_status) {
                         $formatted_price = $product['price'];
                     } else {
-                        $formatted_price = $this->tax->calculate($product['price'], $product['tax_class_id']);
+                        $formatted_price = $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'));
                     }
 
-                    $xml->writeElement('g:price', $formatted_price . ' ' . $currency_code);
+                    $xml->writeElement('g:price', $this->currency->format($formatted_price, $currency_code, 0, false) . ' ' . $currency_code);
 
                     if ((float) $product['special']) {
                         if ($tax_status) {
                             $formatted_price = $product['special'];
                         } else {
-                            $formatted_price = $this->tax->calculate($product['special'], $product['tax_class_id']);
+                            $formatted_price = $this->tax->calculate($product['special'], $product['tax_class_id'], $this->config->get('config_tax'));
                         }
 
-                        $xml->writeElement('g:sale_price', $formatted_price . ' ' . $currency_code);
+                        $xml->writeElement('g:sale_price', $this->currency->format($formatted_price, $currency_code, 0, false) . ' ' . $currency_code);
 
                         $sale_dates = $this->model_extension_ps_google_base_feed_ps_google_base->getSpecialPriceDatesByProductId($product['product_id']);
 
