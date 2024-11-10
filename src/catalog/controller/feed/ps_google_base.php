@@ -141,7 +141,8 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                     $xml->writeCData(html_entity_decode($product['name'], ENT_QUOTES, 'UTF-8'));
                     $xml->endElement();
 
-                    $xml->writeElement('link', $this->url->link('product/product', 'language=' . $language . '&product_id=' . $product['product_id']));
+                    $product_link = $this->url->link('product/product', 'language=' . $language . '&product_id=' . $product['product_id']);
+                    $xml->writeElement('link', str_replace('&amp;', '&', $product_link));
 
                     $xml->startElement('description');
                     $xml->writeCData($this->normalizeDescription($product['description']));
