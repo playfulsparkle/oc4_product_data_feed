@@ -27,7 +27,17 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
             return;
         }
 
-        if ($this->config->get('feed_ps_google_base_login') && $this->config->get('feed_ps_google_base_password')) {
+        $this->load->model('setting/setting');
+
+        $config = $this->model_setting_setting->getSetting('feed_ps_google_base', $this->config->get('config_store_id'));
+
+        $skip_out_of_stock = isset($config['feed_ps_google_base_skip_out_of_stock']) ? (bool) $config['feed_ps_google_base_skip_out_of_stock'] : false;
+        $base_login = isset($config['feed_ps_google_base_login']) ? $config['feed_ps_google_base_login'] : '';
+        $base_password = isset($config['feed_ps_google_base_password']) ? $config['feed_ps_google_base_password'] : '';
+        $base_tax_status = isset($config['feed_ps_google_base_tax']) ? (bool) $config['feed_ps_google_base_tax'] : false;
+        $base_tax_definitions = isset($config['feed_ps_google_base_taxes']) ? (array) $config['feed_ps_google_base_taxes'] : [];
+
+        if ($base_login && $base_password) {
             header('Cache-Control: no-cache, must-revalidate, max-age=0');
 
             if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
@@ -36,10 +46,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                 echo 'Invalid credentials';
                 exit;
             } else {
-                if (
-                    $_SERVER['PHP_AUTH_USER'] !== $this->config->get('feed_ps_google_base_login') ||
-                    $_SERVER['PHP_AUTH_PW'] !== $this->config->get('feed_ps_google_base_password')
-                ) {
+                if ($_SERVER['PHP_AUTH_USER'] !== $base_login || $_SERVER['PHP_AUTH_PW'] !== $base_password) {
                     header('WWW-Authenticate: Basic realm="ps_google_base"');
                     header('HTTP/1.1 401 Unauthorized');
                     echo 'Invalid credentials';
@@ -87,21 +94,18 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $link = $this->url->link('common/home', 'language=' . $language);
         $xml->writeElement('link', str_replace('&amp;', '&', $link));
 
-        $tax_status = $this->config->get('feed_ps_google_base_tax');
         $taxes = [];
 
-        $config_taxes = $this->config->get('feed_ps_google_base_taxes');
-
-        if (is_array($config_taxes)) {
-            foreach ($config_taxes as $config_tax) {
-                $tax_rate_info = $this->model_extension_ps_google_base_feed_ps_google_base->getTaxRate($config_tax['tax_rate_id']);
+        if (is_array($base_tax_definitions)) {
+            foreach ($base_tax_definitions as $base_tax_definition) {
+                $tax_rate_info = $this->model_extension_ps_google_base_feed_ps_google_base->getTaxRate($base_tax_definition['tax_rate_id']);
 
                 if ($tax_rate_info) {
                     $taxes[] = [
-                        'country_id' => $config_tax['country_id'],
-                        'region' => $config_tax['region'],
+                        'country_id' => $base_tax_definition['country_id'],
+                        'region' => $base_tax_definition['region'],
                         'tax_rate' => $tax_rate_info['rate'],
-                        'tax_ship' => $config_tax['tax_ship'],
+                        'tax_ship' => $base_tax_definition['tax_ship'],
                     ];
                 }
             }
@@ -127,10 +131,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                         continue;
                     }
 
-                    if (
-                        $this->config->get('feed_ps_google_base_skip_out_of_stock') &&
-                        0 === (int) $product['quantity']
-                    ) {
+                    if ($skip_out_of_stock && 0 === (int) $product['quantity']) {
                         continue;
                     }
 
@@ -187,7 +188,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                     }
 
                     // Price (handling special price if available)
-                    if ($tax_status) {
+                    if ($base_tax_status) {
                         $formatted_price = $product['price'];
                     } else {
                         $formatted_price = $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'));
@@ -196,7 +197,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                     $xml->writeElement('g:price', $this->currency->format($formatted_price, $this->config->get('config_currency'), 0, false) . ' ' . $this->config->get('config_currency'));
 
                     if ((float) $product['special']) {
-                        if ($tax_status) {
+                        if ($base_tax_status) {
                             $formatted_price = $product['special'];
                         } else {
                             $formatted_price = $this->tax->calculate($product['special'], $product['tax_class_id'], $this->config->get('config_tax'));
@@ -219,7 +220,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                     }
 
                     #region <g:tax> element
-                    if ($tax_status) {
+                    if ($base_tax_status) {
                         foreach ($taxes as $tax) {
                             $xml->startElement('g:tax');
 

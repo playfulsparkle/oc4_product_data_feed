@@ -41,6 +41,14 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
     {
         $this->load->language('extension/ps_google_base/feed/ps_google_base');
 
+
+        if (isset($this->request->get['store_id'])) {
+            $store_id = (int) $this->request->get['store_id'];
+        } else {
+            $store_id = 0;
+        }
+
+
         $this->document->setTitle($this->language->get('heading_title'));
 
         $data['breadcrumbs'] = [];
@@ -57,14 +65,25 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
         $data['breadcrumbs'][] = [
             'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('extension/ps_google_base/feed/ps_google_base', 'user_token=' . $this->session->data['user_token'])
+            'href' => $this->url->link('extension/ps_google_base/feed/ps_google_base', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $store_id)
         ];
 
-        $data['action'] = $this->url->link('extension/ps_google_base/feed/ps_google_base.save', 'user_token=' . $this->session->data['user_token']);
+        $data['action'] = $this->url->link('extension/ps_google_base/feed/ps_google_base.save', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $store_id);
 
         $data['back'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=feed');
 
         $data['user_token'] = $this->session->data['user_token'];
+
+        $this->load->model('setting/setting');
+
+        $config = $this->model_setting_setting->getSetting('feed_ps_google_base', $store_id);
+
+        $data['feed_ps_google_base_status'] = isset($config['feed_ps_google_base_status']) ? (bool) $config['feed_ps_google_base_status'] : false;
+        $data['feed_ps_google_base_skip_out_of_stock'] = isset($config['feed_ps_google_base_skip_out_of_stock']) ? (bool) $config['feed_ps_google_base_skip_out_of_stock'] : false;
+        $data['feed_ps_google_base_login'] = isset($config['feed_ps_google_base_login']) ? $config['feed_ps_google_base_login'] : '';
+        $data['feed_ps_google_base_password'] = isset($config['feed_ps_google_base_password']) ? $config['feed_ps_google_base_password'] : '';
+        $data['feed_ps_google_base_tax'] = isset($config['feed_ps_google_base_tax']) ? (bool) $config['feed_ps_google_base_tax'] : false;
+        $data['feed_ps_google_base_taxes'] = isset($config['feed_ps_google_base_taxes']) ? $config['feed_ps_google_base_taxes'] : [];
 
         $this->load->model('localisation/language');
 
@@ -72,18 +91,39 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
         $data['languages'] = $languages;
 
+        $data['store_id'] = $store_id;
+
+        $data['stores'] = [];
+
+        $data['stores'][] = [
+            'store_id' => 0,
+            'name' => $this->config->get('config_name') . '&nbsp;' . $this->language->get('text_default'),
+            'href' => $this->url->link('extension/ps_google_base/feed/ps_google_base', 'user_token=' . $this->session->data['user_token'] . '&store_id=0'),
+        ];
+
+        $this->load->model('setting/store');
+
+        $stores = $this->model_setting_store->getStores();
+
+        $store_url = HTTP_CATALOG;
+
+        foreach ($stores as $store) {
+            $data['stores'][] = [
+                'store_id' => $store['store_id'],
+                'name' => $store['name'],
+                'href' => $this->url->link('extension/ps_google_base/feed/ps_google_base', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $store['store_id']),
+            ];
+
+            if ((int) $store['store_id'] === $store_id) {
+                $store_url = $store['url'];
+            }
+        }
+
         $data['data_feed_urls'] = [];
 
         foreach ($languages as $language) {
-            $data['data_feed_urls'][$language['language_id']] = HTTP_CATALOG . 'index.php?route=extension/ps_google_base/feed/ps_google_base&language=' . $language['code'];
+            $data['data_feed_urls'][$language['language_id']] = rtrim($store_url, '/') . '/index.php?route=extension/ps_google_base/feed/ps_google_base&language=' . $language['code'];
         }
-
-        $data['feed_ps_google_base_status'] = $this->config->get('feed_ps_google_base_status');
-        $data['feed_ps_google_base_skip_out_of_stock'] = $this->config->get('feed_ps_google_base_skip_out_of_stock');
-        $data['feed_ps_google_base_login'] = $this->config->get('feed_ps_google_base_login');
-        $data['feed_ps_google_base_password'] = $this->config->get('feed_ps_google_base_password');
-        $data['feed_ps_google_base_tax'] = (int) $this->config->get('feed_ps_google_base_tax');
-        $data['feed_ps_google_base_taxes'] = $this->config->get('feed_ps_google_base_taxes');
 
         $this->load->model('localisation/tax_rate');
 
@@ -186,7 +226,13 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
         if (!$this->user->hasPermission('modify', 'extension/ps_google_base/feed/ps_google_base')) {
             $json['error'] = $this->language->get('error_permission');
-        } else {
+        }
+
+        if (!$json && !isset($this->request->post['store_id'])) {
+            $json['error'] = $this->language->get('error_store_id');
+        }
+
+        if (!$json) {
             if (isset($this->request->post['feed_ps_google_base_tax'], $this->request->post['feed_ps_google_base_taxes'])) {
                 foreach ($this->request->post['feed_ps_google_base_taxes'] as $row_id => $data) {
                     if ($this->_strlen(trim($data['country'])) === 0 || $this->_strlen(trim($data['country_id'])) === 0) {
@@ -207,7 +253,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         if (!$json) {
             $this->load->model('setting/setting');
 
-            $this->model_setting_setting->editSetting('feed_ps_google_base', $this->request->post);
+            $this->model_setting_setting->editSetting('feed_ps_google_base', $this->request->post, $this->request->post['store_id']);
 
             $json['success'] = $this->language->get('text_success');
         }
@@ -348,6 +394,12 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
     {
         $this->load->language('extension/ps_google_base/feed/ps_google_base');
 
+        if (isset($this->request->get['store_id'])) {
+            $store_id = (int) $this->request->get['store_id'];
+        } else {
+            $store_id = 0;
+        }
+
         if (isset($this->request->get['page'])) {
             $page = (int) $this->request->get['page'];
         } else {
@@ -361,6 +413,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $this->load->model('extension/ps_google_base/feed/ps_google_base');
 
         $filter_data = [
+            'store_id' => $store_id,
             'start' => ($page - 1) * $limit,
             'limit' => $limit
         ];
@@ -383,7 +436,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
             'total' => $category_total,
             'page' => $page,
             'limit' => $limit,
-            'url' => $this->url->link('extension/ps_google_base/feed/ps_google_base.category', 'user_token=' . $this->session->data['user_token'] . '&page={page}')
+            'url' => $this->url->link('extension/ps_google_base/feed/ps_google_base.category', 'store_id= ' . $store_id . '&user_token=' . $this->session->data['user_token'] . '&page={page}')
         ]);
 
         $data['results'] = sprintf($this->language->get('text_pagination'), ($category_total) ? (($page - 1) * 10) + 1 : 0, ((($page - 1) * 10) > ($category_total - 10)) ? $category_total : ((($page - 1) * 10) + 10), $category_total, ceil($category_total / 10));
@@ -444,7 +497,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         } else {
             $this->load->model('extension/ps_google_base/feed/ps_google_base');
 
-            $this->model_extension_ps_google_base_feed_ps_google_base->deleteCategory($this->request->post['category_id']);
+            $this->model_extension_ps_google_base_feed_ps_google_base->deleteCategory($this->request->post);
 
             $json['success'] = $this->language->get('text_remove_category_success');
         }

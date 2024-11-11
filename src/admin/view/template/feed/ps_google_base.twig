@@ -4,9 +4,17 @@
 	<div class="page-header">
 		<div class="container-fluid">
 			<div class="float-end">
-				<button type="button" id="button-import" data-toggle="tooltip" title="{{ button_import }}" class="btn btn-success"><i class="fa-solid fa-upload"></i></button>
-				<button type="submit" form="form-feed" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa-solid fa-save"></i></button>
-				<a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i class="fa-solid fa-reply"></i></a>
+				<div class="input-group">
+					<div class="input-group-text">{{ entry_active_store }}</div>
+					<select name="store" id="input-store" class="form-select">
+						{% for store in stores %}
+						<option value="{{ store.href }}" {% if store.store_id == store_id %} selected{% endif %}>{{ store.name }}</option>
+						{% endfor %}
+					</select>&nbsp;
+					<button type="button" id="button-import" data-toggle="tooltip" title="{{ button_import }}" class="btn btn-success"><i class="fa-solid fa-upload"></i></button>&nbsp;
+					<button type="submit" form="form-feed" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa-solid fa-save"></i></button>&nbsp;
+					<a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i class="fa-solid fa-reply"></i></a>
+				</div>
 			</div>
 			<h1>{{ heading_title }}</h1>
 			<ol class="breadcrumb">
@@ -81,7 +89,7 @@
 								</div>
 							</div>
 
-							<fieldset class="row mb-3" id="tax-group"{% if feed_ps_google_base_tax == 0 %} style="display: none;"{% endif %}>
+							<fieldset class="row mb-3" id="tax-group"{% if not feed_ps_google_base_tax %} style="display: none;" {% endif %}>
 								<legend>{{ heading_tax_deffinitions }}</legend>
 
 								<div class="table-responsive">
@@ -207,12 +215,17 @@
 
 					</div>
 
+					<input type="hidden" name="store_id" value="{{ store_id }}">
 				</form>
 
 			</div>
 		</div>
 	</div>
 	<script>
+		$('#input-store').on('change', function () {
+			window.location = $(this).val();
+		});
+
 		$(document).on('focus', 'input[id^="input-tax-country"]', function () {
 			var $this = $(this);
 			var $this_id = $(this).next('input[id^="input-tax-country-id"]');
@@ -356,14 +369,14 @@
 			$('#category').load(this.href);
 		});
 
-		$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base.category&user_token={{ user_token }}');
+		$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base.category&store_id={{ store_id }}&user_token={{ user_token }}');
 
 		$('#button-category-add').on('click', function () {
 			$.ajax({
 				url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.addcategory&user_token={{ user_token }}',
 				type: 'post',
 				dataType: 'json',
-				data: 'google_base_category_id=' + $('input[name=\'google_base_category_id\']').val() + '&category_id=' + $('input[name=\'category_id\']').val(),
+				data: 'store_id=' + $('input[name=\'store_id\']').val() + '&google_base_category_id=' + $('input[name=\'google_base_category_id\']').val() + '&category_id=' + $('input[name=\'category_id\']').val(),
 				beforeSend: function () {
 					$('#button-category-add').button('loading');
 				},
@@ -385,7 +398,7 @@
 						$('input[name=\'google_base_category\']').val('');
 						$('input[name=\'google_base_category_id\']').val('');
 
-						$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base.category&user_token={{ user_token }}');
+						$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base.category&store_id={{ store_id }}&user_token={{ user_token }}');
 					}
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
@@ -400,7 +413,7 @@
 			$.ajax({
 				url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.removecategory&user_token={{ user_token }}',
 				type: 'post',
-				data: 'category_id=' + encodeURIComponent(this.value),
+				data: 'store_id=' + $('input[name=\'store_id\']').val() + '&category_id=' + encodeURIComponent(this.value),
 				dataType: 'json',
 				crossDomain: true,
 				beforeSend: function () {
