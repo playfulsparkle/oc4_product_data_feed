@@ -51,18 +51,18 @@
 									<label for="input-google-category" class="col-sm-2 col-form-label">{{ entry_google_category }}</label>
 									<div class="col-sm-10">
 
-										<input type="text" name="google_base_category" value="" placeholder="{{ entry_google_category }}" data-oc-target="autocomplete-google-category" id="input-google-category" class="form-control" autocomplete="off" />
+										<input type="text" name="google_base_category" value="" placeholder="{{ entry_google_category }}" data-oc-target="autocomplete-google-category" id="input-google-category" class="form-control" autocomplete="off">
 										<ul id="autocomplete-google-category" class="dropdown-menu"></ul>
-										<input type="hidden" name="google_base_category_id" value="" />
+										<input type="hidden" name="google_base_category_id" value="">
 
 										<div class="input-group">
-											<input type="text" name="category" value="" placeholder="{{ entry_category }}" data-oc-target="autocomplete-category" id="input-category" class="form-control" autocomplete="off" />
+											<input type="text" name="category" value="" placeholder="{{ entry_category }}" data-oc-target="autocomplete-category" id="input-category" class="form-control" autocomplete="off">
 											<span class="input-group-btn">
 												<button type="button" id="button-category-add" data-toggle="tooltip" title="{{ button_category_add }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
 											</span>
 										</div>
 										<ul id="autocomplete-category" class="dropdown-menu"></ul>
-										<input type="hidden" name="category_id" value="" />
+										<input type="hidden" name="category_id" value="">
 
 									</div>
 								</div>
@@ -73,8 +73,8 @@
 								<label for="input-skip-out-of-stock" class="col-sm-2 col-form-label">{{ entry_skip_out_of_stock }}</label>
 								<div class="col-sm-10">
 									<div class="form-check form-switch form-switch-lg">
-										<input type="hidden" name="feed_ps_google_base_skip_out_of_stock" value="0" />
-										<input type="checkbox" name="feed_ps_google_base_skip_out_of_stock" value="1" id="input-skip-out-of-stock" class="form-check-input" {% if feed_ps_google_base_skip_out_of_stock %} checked{% endif %} />
+										<input type="hidden" name="feed_ps_google_base_skip_out_of_stock" value="0">
+										<input type="checkbox" name="feed_ps_google_base_skip_out_of_stock" value="1" id="input-skip-out-of-stock" class="form-check-input" {% if feed_ps_google_base_skip_out_of_stock %} checked{% endif %}>
 									</div>
 								</div>
 							</div>
@@ -83,8 +83,8 @@
 								<label for="input-tax-status" class="col-sm-2 col-form-label">{{ entry_tax }}</label>
 								<div class="col-sm-10">
 									<div class="form-check form-switch form-switch-lg">
-										<input type="hidden" name="feed_ps_google_base_tax" value="0" />
-										<input type="checkbox" name="feed_ps_google_base_tax" value="1" id="input-tax-status" class="form-check-input" {% if feed_ps_google_base_tax %} checked{% endif %} />
+										<input type="hidden" name="feed_ps_google_base_tax" value="0">
+										<input type="checkbox" name="feed_ps_google_base_tax" value="1" id="input-tax-status" class="form-check-input" {% if feed_ps_google_base_tax %} checked{% endif %}>
 									</div>
 								</div>
 							</div>
@@ -107,13 +107,13 @@
 											{% for tax in feed_ps_google_base_taxes %}
 											<tr id="tax-row-{{ loop.index0 }}">
 												<td class="text-start">
-													<input type="text" name="feed_ps_google_base_taxes[{{ loop.index0 }}][country]" value="{{ tax.country }}" placeholder="{{ entry_country }}" data-oc-target="autocomplete-tax-country-{{ loop.index0 }}" id="input-tax-country-{{ loop.index0 }}" class="form-control" autocomplete="off" />
-													<input type="hidden" name="feed_ps_google_base_taxes[{{ loop.index0 }}][country_id]" value="{{ tax.country_id }}" id="input-tax-country-id-{{ loop.index0 }}" class="form-control" />
+													<input type="text" name="feed_ps_google_base_taxes[{{ loop.index0 }}][country]" value="{{ tax.country }}" placeholder="{{ entry_country }}" data-oc-target="autocomplete-tax-country-{{ loop.index0 }}" id="input-tax-country-{{ loop.index0 }}" class="form-control" autocomplete="off">
+													<input type="hidden" name="feed_ps_google_base_taxes[{{ loop.index0 }}][country_id]" value="{{ tax.country_id }}" id="input-tax-country-id-{{ loop.index0 }}" class="form-control">
 													<ul id="autocomplete-tax-country-{{ loop.index0 }}" class="dropdown-menu"></ul>
 													<div id="error-input-tax-country-{{ loop.index0 }}" class="invalid-feedback"></div>
 												</td>
 												<td class="text-start">
-													<input type="text" name="feed_ps_google_base_taxes[{{ loop.index0 }}][region]" value="{{ tax.region }}" id="input-tax-region-{{ loop.index0 }}" placeholder="{{ entry_region }}" maxlength="2" class="form-control" />
+													<input type="text" name="feed_ps_google_base_taxes[{{ loop.index0 }}][region]" value="{{ tax.region }}" id="input-tax-region-{{ loop.index0 }}" placeholder="{{ entry_region }}" maxlength="2" class="form-control">
 													<div id="error-input-tax-region-{{ loop.index0 }}" class="invalid-feedback"></div>
 												</td>
 												<td class="text-start">
@@ -127,8 +127,8 @@
 												</td>
 												<td class="text-start">
 													<div class="form-check form-switch form-switch-lg">
-														<input type="hidden" name="feed_ps_google_base_taxes[{{ loop.index0 }}][tax_ship]" value="0" />
-														<input type="checkbox" name="feed_ps_google_base_taxes[{{ loop.index0 }}][tax_ship]" value="1" class="form-check-input" {% if tax.tax_ship %} checked{% endif %} id="input-tax-ship-{{ loop.index0 }}" />
+														<input type="hidden" name="feed_ps_google_base_taxes[{{ loop.index0 }}][tax_ship]" value="0">
+														<input type="checkbox" name="feed_ps_google_base_taxes[{{ loop.index0 }}][tax_ship]" value="1" class="form-check-input" {% if tax.tax_ship %} checked{% endif %} id="input-tax-ship-{{ loop.index0 }}">
 													</div>
 												</td>
 												<td class="text-end"><button type="button" onclick="$('#tax-row-{{ loop.index0 }}').remove();" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>
@@ -168,8 +168,8 @@
 								<div class="col-sm-10">
 									{% for language in languages %}
 									<div class="input-group">
-										<div class="input-group-text"><img src="{{ language.image }}" title="{{ language.name }}" /></div>
-										<input type="text" name="data_feed_{{ language.language_id }}" value="{{ data_feed_urls[language.language_id] }}" id="input-data-feed-{{ language.language_id }}" class="form-control" readonly />
+										<div class="input-group-text"><img src="{{ language.image }}" title="{{ language.name }}"></div>
+										<input type="text" name="data_feed_{{ language.language_id }}" value="{{ data_feed_urls[language.language_id] }}" id="input-data-feed-{{ language.language_id }}" class="form-control" readonly>
 										<span class="input-group-btn">
 											<button type="button" class="btn btn-success btn-copy" data-toggle="tooltip" data-input-id="input-data-feed-{{ language.language_id }}" title="{{ help_copy }}"><i class="fa fa-copy"></i></button>
 										</span>
@@ -182,8 +182,8 @@
 								<label for="input-status" class="col-sm-2 col-form-label">{{ entry_status }}</label>
 								<div class="col-sm-10">
 									<div class="form-check form-switch form-switch-lg">
-										<input type="hidden" name="feed_ps_google_base_status" value="0" />
-										<input type="checkbox" name="feed_ps_google_base_status" value="1" class="form-check-input" {% if feed_ps_google_base_status %} checked{% endif %} id="input-status" />
+										<input type="hidden" name="feed_ps_google_base_status" value="0">
+										<input type="checkbox" name="feed_ps_google_base_status" value="1" class="form-check-input" {% if feed_ps_google_base_status %} checked{% endif %} id="input-status">
 									</div>
 								</div>
 							</div>
@@ -193,16 +193,16 @@
 
 							<h3>{{ heading_getting_started }}</h3>
 							{{ text_getting_started }}
-							<hr />
+							<hr>
 							<h3>{{ heading_setup }}</h3>
 							{{ text_setup }}
-							<hr />
+							<hr>
 							<h3>{{ heading_troubleshot }}</h3>
 							{{ text_troubleshot }}
-							<hr />
+							<hr>
 							<h3>{{ heading_faq }}</h3>
 							{{ text_faq }}
-							<hr />
+							<hr>
 							<h3>{{ heading_contact }}</h3>
 							{{ text_contact }}
 
@@ -262,13 +262,13 @@
 		$('#button-tax').on('click', function () {
 			var html = '<tr id="tax-row-' + tax_row + '">';
 			html += '	<td class="text-start">';
-			html += '		<input type="text" name="feed_ps_google_base_taxes[' + tax_row + '][country]" value="{{ tax.country }}" placeholder="{{ entry_country }}" data-oc-target="autocomplete-tax-country-' + tax_row + '" id="input-tax-country-' + tax_row + '" class="form-control" autocomplete="off" />';
-			html += '		<input type="hidden" name="feed_ps_google_base_taxes[' + tax_row + '][country_id]" value="{{ tax.country_id }}" id="input-tax-country-id-' + tax_row + '" class="form-control" />';
+			html += '		<input type="text" name="feed_ps_google_base_taxes[' + tax_row + '][country]" value="{{ tax.country }}" placeholder="{{ entry_country }}" data-oc-target="autocomplete-tax-country-' + tax_row + '" id="input-tax-country-' + tax_row + '" class="form-control" autocomplete="off">';
+			html += '		<input type="hidden" name="feed_ps_google_base_taxes[' + tax_row + '][country_id]" value="{{ tax.country_id }}" id="input-tax-country-id-' + tax_row + '" class="form-control">';
 			html += '		<ul id="autocomplete-tax-country-' + tax_row + '" class="dropdown-menu"></ul>';
 			html += '		<div id="error-input-tax-country-' + tax_row + '" class="invalid-feedback"></div>';
 			html += '	</td>';
 			html += '	<td class="text-start">';
-			html += '		<input type="text" name="feed_ps_google_base_taxes[' + tax_row + '][region]" value="{{ tax.region }}" id="input-tax-region-' + tax_row + '" placeholder="{{ entry_region }}" maxlength="2" class="form-control" />';
+			html += '		<input type="text" name="feed_ps_google_base_taxes[' + tax_row + '][region]" value="{{ tax.region }}" id="input-tax-region-' + tax_row + '" placeholder="{{ entry_region }}" maxlength="2" class="form-control">';
 			html += '		<div id="error-input-tax-region-' + tax_row + '" class="invalid-feedback"></div>';
 			html += '	</td>';
 			html += '	<td class="text-start">';
@@ -280,8 +280,8 @@
 			html += '	</td>';
 			html += '	<td class="text-start">';
 			html += '		<div class="form-check form-switch form-switch-lg">';
-			html += '			<input type="hidden" name="feed_ps_google_base_taxes[' + tax_row + '][tax_ship]" value="0" />';
-			html += '			<input type="checkbox" name="feed_ps_google_base_taxes[' + tax_row + '][tax_ship]" value="1" class="form-check-input" {% if tax.tax_ship %} checked{% endif %} id="input-tax-ship-' + tax_row + '" />';
+			html += '			<input type="hidden" name="feed_ps_google_base_taxes[' + tax_row + '][tax_ship]" value="0">';
+			html += '			<input type="checkbox" name="feed_ps_google_base_taxes[' + tax_row + '][tax_ship]" value="1" class="form-check-input" {% if tax.tax_ship %} checked{% endif %} id="input-tax-ship-' + tax_row + '">';
 			html += '		</div>';
 			html += '	</td>';
 			html += '	<td class="text-end"><button type="button" onclick="$(\'#tax-row-' + tax_row + '\').remove();" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>';
@@ -434,7 +434,7 @@
 		$('#button-import').on('click', function () {
 			$('#form-upload').remove();
 
-			$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+			$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file"></form>');
 
 			$('#form-upload input[name=\'file\']').trigger('click');
 
