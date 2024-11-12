@@ -83,7 +83,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $data['feed_ps_google_base_login'] = isset($config['feed_ps_google_base_login']) ? $config['feed_ps_google_base_login'] : '';
         $data['feed_ps_google_base_password'] = isset($config['feed_ps_google_base_password']) ? $config['feed_ps_google_base_password'] : '';
         $data['feed_ps_google_base_tax'] = isset($config['feed_ps_google_base_tax']) ? (bool) $config['feed_ps_google_base_tax'] : false;
-        $data['feed_ps_google_base_taxes'] = isset($config['feed_ps_google_base_taxes']) ? $config['feed_ps_google_base_taxes'] : [];
+        $data['feed_ps_google_base_taxes'] = isset($config['feed_ps_google_base_taxes']) ? (array) $config['feed_ps_google_base_taxes'] : [];
 
         $this->load->model('localisation/language');
 
