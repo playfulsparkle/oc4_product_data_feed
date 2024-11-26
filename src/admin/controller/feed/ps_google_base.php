@@ -68,7 +68,9 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
             'href' => $this->url->link('extension/ps_google_base/feed/ps_google_base', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $store_id)
         ];
 
-        $data['action'] = $this->url->link('extension/ps_google_base/feed/ps_google_base.save', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $store_id);
+        $separator = version_compare(VERSION, '4.0.2.0', '>=') ? '.' : '|';
+
+        $data['action'] = $this->url->link('extension/ps_google_base/feed/ps_google_base' . $separator . 'save', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $store_id);
 
         $data['back'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=feed');
 
@@ -431,12 +433,13 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
         $category_total = $this->model_extension_ps_google_base_feed_ps_google_base->getTotalCategories();
 
+        $separator = version_compare(VERSION, '4.0.2.0', '>=') ? '.' : '|';
 
         $data['pagination'] = $this->load->controller('common/pagination', [
             'total' => $category_total,
             'page' => $page,
             'limit' => $limit,
-            'url' => $this->url->link('extension/ps_google_base/feed/ps_google_base.category', 'store_id= ' . $store_id . '&user_token=' . $this->session->data['user_token'] . '&page={page}')
+            'url' => $this->url->link('extension/ps_google_base/feed/ps_google_base' . $separator . 'category', 'store_id= ' . $store_id . '&user_token=' . $this->session->data['user_token'] . '&page={page}')
         ]);
 
         $data['results'] = sprintf($this->language->get('text_pagination'), ($category_total) ? (($page - 1) * 10) + 1 : 0, ((($page - 1) * 10) > ($category_total - 10)) ? $category_total : ((($page - 1) * 10) + 10), $category_total, ceil($category_total / 10));
