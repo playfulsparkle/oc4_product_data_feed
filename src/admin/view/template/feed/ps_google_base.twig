@@ -70,6 +70,17 @@
 							</fieldset>
 
 							<div class="row mb-3">
+								<label for="input-additional-images" class="col-sm-2 col-form-label">{{ entry_additional_images }}</label>
+								<div class="col-sm-10">
+									<div class="form-check form-switch form-switch-lg">
+										<input type="hidden" name="feed_ps_google_base_additional_images" value="0">
+										<input type="checkbox" name="feed_ps_google_base_additional_images" value="1" id="input-additional-images" class="form-check-input" {% if feed_ps_google_base_additional_images %} checked{% endif %}>
+									</div>
+									<div class="form-text">{{ help_additional_images }}</div>
+								</div>
+							</div>
+
+							<div class="row mb-3">
 								<label for="input-skip-out-of-stock" class="col-sm-2 col-form-label">{{ entry_skip_out_of_stock }}</label>
 								<div class="col-sm-10">
 									<div class="form-check form-switch form-switch-lg">
@@ -171,7 +182,8 @@
 										<div class="input-group-text"><img src="{{ language.image }}" title="{{ language.name }}"></div>
 										<input type="text" name="data_feed_{{ language.language_id }}" value="{{ data_feed_urls[language.language_id] }}" id="input-data-feed-{{ language.language_id }}" class="form-control" readonly>
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-success btn-copy" data-toggle="tooltip" data-input-id="input-data-feed-{{ language.language_id }}" title="{{ help_copy }}"><i class="fa fa-copy"></i></button>
+											<button type="button" class="btn btn-info btn-copy" data-toggle="tooltip" data-input-id="input-data-feed-{{ language.language_id }}" title="{{ help_copy }}"><i class="fa fa-copy"></i></button>
+											<button type="button" class="btn btn-light btn-open" data-toggle="tooltip" data-input-id="input-data-feed-{{ language.language_id }}" title="{{ help_open }}"><i class="fa fa-link"></i></button>
 										</span>
 									</div>
 									{% endfor %}
@@ -299,6 +311,14 @@
 					copyText.select();
 					copyText[0].setSelectionRange(0, 99999);
 					document.execCommand("copy");
+			}
+		});
+
+		$('.btn-open').on('click', function () {
+			var linkUrl = $("#" + $(this).data('inputId')).val();
+
+			if (linkUrl.length) {
+					window.open(linkUrl, '_blank');
 			}
 		});
 

@@ -81,6 +81,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $config = $this->model_setting_setting->getSetting('feed_ps_google_base', $store_id);
 
         $data['feed_ps_google_base_status'] = isset($config['feed_ps_google_base_status']) ? (bool) $config['feed_ps_google_base_status'] : false;
+        $data['feed_ps_google_base_additional_images'] = isset($config['feed_ps_google_base_additional_images']) ? (bool) $config['feed_ps_google_base_additional_images'] : false;
         $data['feed_ps_google_base_skip_out_of_stock'] = isset($config['feed_ps_google_base_skip_out_of_stock']) ? (bool) $config['feed_ps_google_base_skip_out_of_stock'] : false;
         $data['feed_ps_google_base_login'] = isset($config['feed_ps_google_base_login']) ? $config['feed_ps_google_base_login'] : '';
         $data['feed_ps_google_base_password'] = isset($config['feed_ps_google_base_password']) ? $config['feed_ps_google_base_password'] : '';

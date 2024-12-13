@@ -19,6 +19,8 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
      */
     public function install(): void
     {
+        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ps_google_base_category`");
+
         $this->db->query("
             CREATE TABLE `" . DB_PREFIX . "ps_google_base_category` (
                 `google_base_category_id` int(11) NOT NULL,
@@ -27,6 +29,8 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
                 KEY `name` (`name`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 		");
+
+        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ps_google_base_category_to_category`");
 
         $this->db->query("
 			CREATE TABLE `" . DB_PREFIX . "ps_google_base_category_to_category` (
