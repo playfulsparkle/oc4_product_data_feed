@@ -11,7 +11,7 @@
 						<option value="{{ store.href }}" {% if store.store_id == store_id %} selected{% endif %}>{{ store.name }}</option>
 						{% endfor %}
 					</select>&nbsp;
-					<button type="button" id="button-import" data-toggle="tooltip" title="{{ button_import }}" class="btn btn-success"><i class="fa-solid fa-upload"></i></button>&nbsp;
+					<button type="button" id="button-import" data-bs-toggle="tooltip" title="{{ button_import }}" class="btn btn-success"><i class="fa-solid fa-upload"></i></button>&nbsp;
 					<button type="submit" form="form-feed" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa-solid fa-save"></i></button>&nbsp;
 					<a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i class="fa-solid fa-reply"></i></a>
 				</div>
@@ -58,7 +58,7 @@
 										<div class="input-group">
 											<input type="text" name="category" value="" placeholder="{{ entry_category }}" data-oc-target="autocomplete-category" id="input-category" class="form-control" autocomplete="off">
 											<span class="input-group-btn">
-												<button type="button" id="button-category-add" data-toggle="tooltip" title="{{ button_category_add }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
+												<button type="button" id="button-category-add" data-bs-toggle="tooltip" title="{{ button_category_add }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
 											</span>
 										</div>
 										<ul id="autocomplete-category" class="dropdown-menu"></ul>
@@ -182,8 +182,8 @@
 										<div class="input-group-text"><img src="{{ language.image }}" title="{{ language.name }}"></div>
 										<input type="text" name="data_feed_{{ language.language_id }}" value="{{ data_feed_urls[language.language_id] }}" id="input-data-feed-{{ language.language_id }}" class="form-control" readonly>
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-info btn-copy" data-toggle="tooltip" data-input-id="input-data-feed-{{ language.language_id }}" title="{{ help_copy }}"><i class="fa fa-copy"></i></button>
-											<button type="button" class="btn btn-light btn-open" data-toggle="tooltip" data-input-id="input-data-feed-{{ language.language_id }}" title="{{ help_open }}"><i class="fa fa-link"></i></button>
+											<button type="button" class="btn btn-info btn-copy" data-bs-toggle="tooltip" data-input-id="input-data-feed-{{ language.language_id }}" title="{{ help_copy }}"><i class="fa fa-copy"></i></button>
+											<button type="button" class="btn btn-light btn-open" data-bs-toggle="tooltip" data-input-id="input-data-feed-{{ language.language_id }}" title="{{ help_open }}"><i class="fa fa-link"></i></button>
 										</span>
 									</div>
 									{% endfor %}
