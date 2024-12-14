@@ -66,7 +66,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
      * @param string $string The input string containing category data.
      * @return void
      */
-    public function import($string): void
+    public function import_google_base_category($string): void
     {
         $this->db->query("DELETE FROM " . DB_PREFIX . "ps_google_base_category");
 

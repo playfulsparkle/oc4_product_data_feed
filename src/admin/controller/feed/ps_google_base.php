@@ -320,7 +320,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
      *
      * @return void
      */
-    public function import(): void
+    public function import_google_base_category(): void
     {
         $this->load->language('extension/ps_google_base/feed/ps_google_base');
 
@@ -364,7 +364,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
             if (is_readable($this->request->files['file']['tmp_name'])) {
                 $content = file_get_contents($this->request->files['file']['tmp_name']);
 
-                $this->model_extension_ps_google_base_feed_ps_google_base->import($content);
+                $this->model_extension_ps_google_base_feed_ps_google_base->import_google_base_category($content);
 
                 @unlink($this->request->files['file']['tmp_name']);
             }
