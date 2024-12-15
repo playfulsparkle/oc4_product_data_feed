@@ -11,7 +11,7 @@
 						<option value="{{ store.href }}" {% if store.store_id == store_id %} selected{% endif %}>{{ store.name }}</option>
 						{% endfor %}
 					</select>&nbsp;
-					<button type="button" id="button-import-google-base-category" data-bs-toggle="tooltip" title="{{ button_import }}" class="btn btn-success"><i class="fa-solid fa-upload"></i></button>&nbsp;
+					<button type="button" id="button-import-gbc" data-bs-toggle="tooltip" title="{{ button_import }}" class="btn btn-success"><i class="fa-solid fa-upload"></i></button>&nbsp;
 					<button type="submit" form="form-feed" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa-solid fa-save"></i></button>&nbsp;
 					<a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i class="fa-solid fa-reply"></i></a>
 				</div>
@@ -25,14 +25,19 @@
 		</div>
 	</div>
 	<div class="container-fluid">
-		<div class="alert alert-info fade show" role="alert">
-			<i class="fa-solid fa-info-circle"></i> {{ text_import }}
-		</div>
+
+		{% if error_warning %}
+		<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> {{ error_warning }}
+			<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+		{% endif %}
+
 		<div class="card">
 			<div class="card-header"><i class="fa-solid fa-pencil"></i> {{ text_edit }}</div>
 			<div class="card-body">
 
 				<form id="form-feed" action="{{ action }}" method="post" data-oc-toggle="ajax">
+
+					<div class="alert alert-info fade show"><i class="fa-solid fa-info-circle"></i> {{ text_import }}</div>
 
 					<ul class="nav nav-tabs">
 						<li class="nav-item"><a href="#tab-general" data-bs-toggle="tab" class="nav-link active">{{ tab_general }}</a></li>
@@ -64,6 +69,20 @@
 										<ul id="autocomplete-category" class="dropdown-menu"></ul>
 										<input type="hidden" name="category_id" value="">
 
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label class="col-sm-2 col-form-label">{{ entry_backup_restore }}</label>
+									<div class="col-sm-10">
+										<div class="input-group">
+											<span class="input-group-btn">
+												<a href="{{ backup_gbc2c }}" id="button-gbc2c-backup" class="btn btn-success" data-bs-toggle="tooltip" title="{{ button_backup }}"><i class="fa-solid fa-download"></i></a>
+												<button type="button" id="button-gbc2c-restore" class="btn btn-primary" data-bs-toggle="tooltip" title="{{ button_restore }}"><i class="fa-solid fa-upload"></i></button>
+											</span>
+										</div>
+										<br>
+										<div class="alert alert-warning"><i class="fa-solid fa-circle-exclamation"></i> {{ text_gbc2c_restore }}</div>
 									</div>
 								</div>
 
@@ -420,7 +439,7 @@
 			var element = this;
 
 			$.ajax({
-				url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.removecategory&user_token={{ user_token }}',
+				url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.removecategory&store_id={{ store_id }}&user_token={{ user_token }}',
 				type: 'post',
 				data: 'store_id=' + $('input[name=\'store_id\']').val() + '&category_id=' + encodeURIComponent(this.value),
 				dataType: 'json',
@@ -442,7 +461,7 @@
 					if (json['success']) {
 						$('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
-						$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base.category&user_token={{ user_token }}');
+						$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base.category&store_id={{ store_id }}&user_token={{ user_token }}');
 					}
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
@@ -451,7 +470,7 @@
 			});
 		});
 
-		$('#button-import-google-base-category').on('click', function () {
+		$('#button-import-gbc').on('click', function () {
 			$('#form-upload').remove();
 
 			$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file"></form>');
@@ -467,7 +486,7 @@
 					clearInterval(timer);
 
 					$.ajax({
-						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.import_google_base_category&user_token={{ user_token }}',
+						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.import_gbc&user_token={{ user_token }}',
 						type: 'post',
 						dataType: 'json',
 						data: new FormData($('#form-upload')[0]),
@@ -475,10 +494,10 @@
 						contentType: false,
 						processData: false,
 						beforeSend: function () {
-							$('#button-import-google-base-category').button('loading');
+							$('#button-import-gbc').button('loading');
 						},
 						complete: function () {
-							$('#button-import-google-base-category').button('reset');
+							$('#button-import-gbc').button('reset');
 						},
 						success: function (json) {
 							$('.alert-dismissible').remove();
@@ -489,6 +508,56 @@
 
 							if (json['success']) {
 								$('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+							}
+						},
+						error: function (xhr, ajaxOptions, thrownError) {
+							alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+						}
+					});
+				}
+			}, 500);
+		});
+
+		$('#button-gbc2c-restore').on('click', function () {
+			$('#form-upload').remove();
+
+			$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file"></form>');
+
+			$('#form-upload input[name=\'file\']').trigger('click');
+
+			if (typeof timer != 'undefined') {
+				clearInterval(timer);
+			}
+
+			timer = setInterval(function () {
+				if ($('#form-upload input[name=\'file\']').val() != '') {
+					clearInterval(timer);
+
+					$.ajax({
+						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.restore_gbc2c&store_id={{ store_id }}&user_token={{ user_token }}',
+						type: 'post',
+						dataType: 'json',
+						data: new FormData($('#form-upload')[0]),
+						cache: false,
+						contentType: false,
+						processData: false,
+						beforeSend: function () {
+							$('#button-gbc2c-restore').button('loading');
+						},
+						complete: function () {
+							$('#button-gbc2c-restore').button('reset');
+						},
+						success: function (json) {
+							$('.alert-dismissible').remove();
+
+							if (json['error']) {
+								$('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+							}
+
+							if (json['success']) {
+								$('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+								$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base.category&store_id={{ store_id }}&user_token={{ user_token }}');
 							}
 						},
 						error: function (xhr, ajaxOptions, thrownError) {
