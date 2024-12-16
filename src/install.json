@@ -1,5 +1,6 @@
 {
     "name": "Playful Sparkle - Google Base",
+    "description": "Easily export product data to Google Merchant Center, with features like multi-store support, tax definitions, and secure access for efficient management.",
     "code": "ps_google_base",
     "license": "GPL",
     "version": "1.0.3",
