@@ -288,9 +288,11 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
      */
     public function install(): void
     {
-        $this->load->model('extension/ps_google_base/feed/ps_google_base');
+        if ($this->user->hasPermission('modify', 'extension/feed')) {
+            $this->load->model('extension/ps_google_base/feed/ps_google_base');
 
-        $this->model_extension_ps_google_base_feed_ps_google_base->install();
+            $this->model_extension_ps_google_base_feed_ps_google_base->install();
+        }
     }
 
     /**
@@ -305,9 +307,11 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
      */
     public function uninstall(): void
     {
-        $this->load->model('extension/ps_google_base/feed/ps_google_base');
+        if ($this->user->hasPermission('modify', 'extension/feed')) {
+            $this->load->model('extension/ps_google_base/feed/ps_google_base');
 
-        $this->model_extension_ps_google_base_feed_ps_google_base->uninstall();
+            $this->model_extension_ps_google_base_feed_ps_google_base->uninstall();
+        }
     }
 
     public function backup_gbc2c(): void
