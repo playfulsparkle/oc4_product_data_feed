@@ -259,7 +259,7 @@
 			$this.autocomplete({
 				'source': function (request, response) {
 					$.ajax({
-						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.countryautocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}countryautocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
 						dataType: 'json',
 						success: function (json) {
 							response($.map(json, function (item) {
@@ -345,7 +345,7 @@
 		$('input[name=\'google_base_category\']').autocomplete({
 			'source': function (request, response) {
 				$.ajax({
-					url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+					url: 'index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
 					dataType: 'json',
 					success: function (json) {
 						response($.map(json, function (item) {
@@ -370,7 +370,7 @@
 		$('input[name=\'category\']').autocomplete({
 			'source': function (request, response) {
 				$.ajax({
-					url: 'index.php?route=catalog/category.autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+					url: 'index.php?route=catalog/category{{ oc4_separator }}autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
 					dataType: 'json',
 					success: function (json) {
 						response($.map(json, function (item) {
@@ -397,11 +397,11 @@
 			$('#category').load(this.href);
 		});
 
-		$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base.category&store_id={{ store_id }}&user_token={{ user_token }}');
+		$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}category&store_id={{ store_id }}&user_token={{ user_token }}');
 
 		$('#button-category-add').on('click', function () {
 			$.ajax({
-				url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.addcategory&user_token={{ user_token }}',
+				url: 'index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}addcategory&user_token={{ user_token }}',
 				type: 'post',
 				dataType: 'json',
 				data: 'store_id=' + $('input[name=\'store_id\']').val() + '&google_base_category_id=' + $('input[name=\'google_base_category_id\']').val() + '&category_id=' + $('input[name=\'category_id\']').val(),
@@ -426,7 +426,7 @@
 						$('input[name=\'google_base_category\']').val('');
 						$('input[name=\'google_base_category_id\']').val('');
 
-						$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base.category&store_id={{ store_id }}&user_token={{ user_token }}');
+						$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}category&store_id={{ store_id }}&user_token={{ user_token }}');
 					}
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
@@ -439,7 +439,7 @@
 			var element = this;
 
 			$.ajax({
-				url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.removecategory&store_id={{ store_id }}&user_token={{ user_token }}',
+				url: 'index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}removecategory&store_id={{ store_id }}&user_token={{ user_token }}',
 				type: 'post',
 				data: 'store_id=' + $('input[name=\'store_id\']').val() + '&category_id=' + encodeURIComponent(this.value),
 				dataType: 'json',
@@ -461,7 +461,7 @@
 					if (json['success']) {
 						$('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
-						$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base.category&store_id={{ store_id }}&user_token={{ user_token }}');
+						$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}category&store_id={{ store_id }}&user_token={{ user_token }}');
 					}
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
@@ -486,7 +486,7 @@
 					clearInterval(timer);
 
 					$.ajax({
-						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.import_gbc&user_token={{ user_token }}',
+						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}import_gbc&user_token={{ user_token }}',
 						type: 'post',
 						dataType: 'json',
 						data: new FormData($('#form-upload')[0]),
@@ -534,7 +534,7 @@
 					clearInterval(timer);
 
 					$.ajax({
-						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base.restore_gbc2c&store_id={{ store_id }}&user_token={{ user_token }}',
+						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}restore_gbc2c&store_id={{ store_id }}&user_token={{ user_token }}',
 						type: 'post',
 						dataType: 'json',
 						data: new FormData($('#form-upload')[0]),
@@ -557,7 +557,7 @@
 							if (json['success']) {
 								$('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
-								$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base.category&store_id={{ store_id }}&user_token={{ user_token }}');
+								$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}category&store_id={{ store_id }}&user_token={{ user_token }}');
 							}
 						},
 						error: function (xhr, ajaxOptions, thrownError) {
