@@ -79,16 +79,15 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $separator = version_compare(VERSION, '4.0.2.0', '>=') ? '.' : '|';
 
         $data['action'] = $this->url->link('extension/ps_google_base/feed/ps_google_base' . $separator . 'save', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $store_id);
-
         $data['back'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=feed');
 
         $data['user_token'] = $this->session->data['user_token'];
 
+        $data['oc4_separator'] = $separator;
+
         $this->load->model('setting/setting');
 
         $config = $this->model_setting_setting->getSetting('feed_ps_google_base', $store_id);
-
-        $data['oc4_separator'] = $separator;
 
         $data['feed_ps_google_base_status'] = isset($config['feed_ps_google_base_status']) ? (bool) $config['feed_ps_google_base_status'] : false;
         $data['feed_ps_google_base_additional_images'] = isset($config['feed_ps_google_base_additional_images']) ? (bool) $config['feed_ps_google_base_additional_images'] : false;
