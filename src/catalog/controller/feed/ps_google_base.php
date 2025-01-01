@@ -161,7 +161,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                     $xml->writeElement('g:id', $product['product_id']);
 
                     // Image link
-                    $image_link = $product['image'] ? $this->model_tool_image->resize(html_entity_decode($product['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height')) : null;
+                    $image_link = !empty($product['image']) ? $this->model_tool_image->resize($product['image'], $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height')) : null;
 
                     if ($image_link) {
                         $xml->startElement('g:image_link');
@@ -171,7 +171,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
                     if ($additional_images && $product_images = $this->model_catalog_product->getImages($product['product_id'])) {
                         foreach ($product_images as $product_image) {
-                            $image_link = $product_image['image'] ? $this->model_tool_image->resize(html_entity_decode($product_image['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height')) : null;
+                            $image_link = !empty($product_image['image']) ? $this->model_tool_image->resize($product_image['image'], $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height')) : null;
 
                             if ($image_link) {
                                 $xml->startElement('g:additional_image_link');
