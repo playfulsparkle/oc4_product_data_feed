@@ -113,6 +113,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         }
 
         $product_data = [];
+        $category_data = [];
 
         $google_base_categories = $this->model_extension_ps_google_base_feed_ps_google_base->getCategories();
 
@@ -255,23 +256,29 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
                     $categories = $this->model_catalog_product->getCategories($product['product_id']);
 
                     foreach ($categories as $category) {
-                        $path = $this->getPath($category['category_id']);
+                        if (!isset($category_data[$category['category_id']])) { // Cache category info
+                            $path = $this->getPath($category['category_id']);
 
-                        if ($path) {
-                            $string = '';
+                            if ($path) {
+                                $string = '';
 
-                            foreach (explode('_', $path) as $path_id) {
-                                $category_info = $this->model_catalog_category->getCategory($path_id);
+                                foreach (explode('_', $path) as $path_id) {
+                                    $category_info = $this->model_catalog_category->getCategory($path_id);
 
-                                if ($category_info) {
-                                    if (!$string) {
-                                        $string = $category_info['name'];
-                                    } else {
-                                        $string .= ' &gt; ' . $category_info['name'];
+                                    if ($category_info) {
+                                        if (!$string) {
+                                            $string = $category_info['name'];
+                                        } else {
+                                            $string .= ' &gt; ' . $category_info['name'];
+                                        }
                                     }
+
+                                    $category_data[$category['category_id']] = $string;
                                 }
                             }
+                        }
 
+                        if (isset($category_data[$category['category_id']])) {
                             $xml->startElement('g:product_type');
                             $xml->writeCData($string);
                             $xml->endElement();
