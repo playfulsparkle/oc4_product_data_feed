@@ -38,6 +38,8 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $base_tax_status = isset($config['feed_ps_google_base_tax']) ? (bool) $config['feed_ps_google_base_tax'] : false;
         $base_tax_definitions = isset($config['feed_ps_google_base_taxes']) ? (array) $config['feed_ps_google_base_taxes'] : [];
 
+        $is_oc_4_1 = version_compare(VERSION, '4.1.0.0', '>=');
+
         if ($base_login && $base_password) {
             header('Cache-Control: no-cache, must-revalidate, max-age=0');
 
@@ -125,6 +127,8 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
             $products = $this->model_catalog_product->getProducts($filter_data);
 
+            $products_codes = $this->model_extension_ps_google_base_feed_ps_google_base->getProductCodes(array_column($products, 'product_id'));
+
             foreach ($products as $product) {
                 if (!in_array($product['product_id'], $product_data) && $product['description']) {
                     $product_data[] = $product['product_id'];
@@ -184,6 +188,10 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
                     // Model number
                     $xml->writeElement('g:model_number', $product['model']);
+
+                    if ($is_oc_4_1 && isset($products_codes[$product['product_id']])) {
+                        $product = array_merge($product, $products_codes[$product['product_id']]);
+                    }
 
                     // MPN, UPC, and EAN with CDATA where applicable
                     if ($product['mpn']) {

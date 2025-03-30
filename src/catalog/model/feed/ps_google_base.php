@@ -36,6 +36,45 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
     }
 
     /**
+     * Retrieves product codes (EAN, MPN etc.) for given product IDs from OpenCart database
+     *
+     * Fetches product codes and their values from the product_code table and joins with
+     * identifier table to get status information. Results are cached for performance.
+     *
+     * @param array $product_ids Array of product IDs to fetch codes for
+     * @return array Associative array with product IDs as keys and array of code=>value pairs as values
+     *              Format: [product_id => [code => value]]
+     *              Example: [123 => ['ean' => '1234567890']]
+     *              Returns empty array if no product IDs provided
+     */
+    public function getProductCodes(array $product_ids = []): array
+    {
+        if (empty($product_ids)) {
+            return [];
+        }
+
+        $sql = "SELECT `pc`.`product_id`, `pc`.`code`, `pc`.`value`, `i`.`status` FROM `" . DB_PREFIX . "product_code` `pc` LEFT JOIN `" . DB_PREFIX . "identifier` `i` ON (`pc`.code = `i`.`code`) WHERE `product_id` IN (" . implode(',', $product_ids) . ") AND `pc`.`value` != ''";
+
+        $key = md5($sql);
+
+        $product_codes = $this->cache->get('product_codes.' . $key);
+
+        if (!$product_codes) {
+            $query = $this->db->query($sql);
+
+            $product_codes = [];
+
+            foreach ($query->rows as $row) {
+                $product_codes[$row['product_id']] = [strtolower($row['code']) => $row['value']];
+            }
+
+            $this->cache->set('product_codes.' . $key, $product_codes);
+        }
+
+        return $product_codes;
+    }
+
+    /**
      * Gets the total number of Google Base categories.
      *
      * This method queries the database to count the total number of
