@@ -3,7 +3,7 @@
     "description": "Easily export product data to Google Merchant Center, with features like multi-store support, tax definitions, and secure access for efficient management.",
     "code": "ps_google_base",
     "license": "GPL",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "author": "Playful Sparkle",
     "link": "https://github.com/playfulsparkle/oc4_google_base.git"
   }
