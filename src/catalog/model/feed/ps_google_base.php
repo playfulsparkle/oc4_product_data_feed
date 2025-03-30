@@ -101,12 +101,13 @@ class PSGoogleBase extends \Opencart\System\Engine\Model
      *               - type: The type of tax
      *               - geo_zone_id: The ID of the geo zone
      *               - geo_zone: The name of the geo zone
-     *               - date_added: The date the tax rate was added
-     *               - date_modified: The date the tax rate was last modified
      */
     public function getTaxRate(int $tax_rate_id): array
     {
-        $query = $this->db->query("SELECT tr.`tax_rate_id`, tr.`name` AS name, tr.`rate`, tr.`type`, tr.`geo_zone_id`, gz.`name` AS geo_zone, tr.`date_added`, tr.`date_modified` FROM `" . DB_PREFIX . "tax_rate` tr LEFT JOIN `" . DB_PREFIX . "geo_zone` gz ON (tr.`geo_zone_id` = gz.`geo_zone_id`) WHERE tr.`tax_rate_id` = '" . (int) $tax_rate_id . "'");
+        $query = $this->db->query("SELECT tr.`tax_rate_id`, tr.`name` AS name, tr.`rate`, tr.`type`, tr.`geo_zone_id`, gz.`name` AS geo_zone
+        FROM `" . DB_PREFIX . "tax_rate` tr
+        LEFT JOIN `" . DB_PREFIX . "geo_zone` gz ON (tr.`geo_zone_id` = gz.`geo_zone_id`)
+        WHERE tr.`tax_rate_id` = '" . (int) $tax_rate_id . "'");
 
         return $query->row;
     }
