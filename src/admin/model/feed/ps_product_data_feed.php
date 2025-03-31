@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Extension\PSGoogleBase\Feed;
+namespace Opencart\Admin\Model\Extension\PSProductDataFeed\Feed;
 /**
- * Class PSGoogleBase
+ * Class PSProductDataFeed
  *
- * @package Opencart\Admin\Model\Extension\PSGoogleBase\Feed
+ * @package Opencart\Admin\Model\Extension\PSProductDataFeed\Feed
  */
-class PSGoogleBase extends \Opencart\System\Engine\Model
+class PSProductDataFeed extends \Opencart\System\Engine\Model
 {
     /**
      * Installs the necessary database tables for the Product Data Feed extension.

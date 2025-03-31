@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Extension\PSGoogleBase\Feed;
+namespace Opencart\Catalog\Controller\Extension\PSProductDataFeed\Feed;
 /**
- * Class PSGoogleBase
+ * Class PSProductDataFeed
  *
- * @package Opencart\Catalog\Controller\Extension\PSGoogleBase\Feed
+ * @package Opencart\Catalog\Controller\Extension\PSProductDataFeed\Feed
  */
-class PSGoogleBase extends \Opencart\System\Engine\Controller
+class PSProductDataFeed extends \Opencart\System\Engine\Controller
 {
     /**
      * Generates and outputs an XML feed for Google Merchant using the configured product details.

@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Extension\PSGoogleBase\Feed;
+namespace Opencart\Catalog\Model\Extension\PSProductDataFeed\Feed;
 /**
- * Class PSGoogleBase
+ * Class PSProductDataFeed
  *
- * @package Opencart\Catalog\Model\Extension\PSGoogleBase\Feed
+ * @package Opencart\Catalog\Model\Extension\PSProductDataFeed\Feed
  */
-class PSGoogleBase extends \Opencart\System\Engine\Model
+class PSProductDataFeed extends \Opencart\System\Engine\Model
 {
     /**
      * Retrieves all categories associated with Product Data Feed categories.

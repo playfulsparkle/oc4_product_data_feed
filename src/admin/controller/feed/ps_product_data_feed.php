@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Extension\PSGoogleBase\Feed;
+namespace Opencart\Admin\Controller\Extension\PSProductDataFeed\Feed;
 /**
- * Class PSGoogleBase
+ * Class PSProductDataFeed
  *
- * @package Opencart\Admin\Controller\Extension\PSGoogleBase\Feed
+ * @package Opencart\Admin\Controller\Extension\PSProductDataFeed\Feed
  */
-class PSGoogleBase extends \Opencart\System\Engine\Controller
+class PSProductDataFeed extends \Opencart\System\Engine\Controller
 {
     /**
      * @var string The support email address.
