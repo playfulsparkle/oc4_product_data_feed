@@ -1,9 +1,9 @@
 {
-    "name": "Playful Sparkle - Google Base",
+    "name": "Playful Sparkle - Product Data Feed",
     "description": "Easily export product data to Google Merchant Center, with features like multi-store support, tax definitions, and secure access for efficient management.",
-    "code": "ps_google_base",
+    "code": "ps_product_data_feed",
     "license": "GPL",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "author": "Playful Sparkle",
-    "link": "https://github.com/playfulsparkle/oc4_google_base.git"
+    "link": "https://github.com/playfulsparkle/oc4_product_data_feed.git"
   }

@@ -23,20 +23,20 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
      */
     public function index(): void
     {
-        if (!$this->config->get('feed_ps_google_base_status')) {
+        if (!$this->config->get('feed_ps_product_data_feed_status')) {
             return;
         }
 
         $this->load->model('setting/setting');
 
-        $config = $this->model_setting_setting->getSetting('feed_ps_google_base', $this->config->get('config_store_id'));
+        $config = $this->model_setting_setting->getSetting('feed_ps_product_data_feed', $this->config->get('config_store_id'));
 
-        $additional_images = isset($config['feed_ps_google_base_additional_images']) ? (bool) $config['feed_ps_google_base_additional_images'] : false;
-        $skip_out_of_stock = isset($config['feed_ps_google_base_skip_out_of_stock']) ? (bool) $config['feed_ps_google_base_skip_out_of_stock'] : false;
-        $base_login = isset($config['feed_ps_google_base_login']) ? $config['feed_ps_google_base_login'] : '';
-        $base_password = isset($config['feed_ps_google_base_password']) ? $config['feed_ps_google_base_password'] : '';
-        $base_tax_status = isset($config['feed_ps_google_base_tax']) ? (bool) $config['feed_ps_google_base_tax'] : false;
-        $base_tax_definitions = isset($config['feed_ps_google_base_taxes']) ? (array) $config['feed_ps_google_base_taxes'] : [];
+        $additional_images = isset($config['feed_ps_product_data_feed_additional_images']) ? (bool) $config['feed_ps_product_data_feed_additional_images'] : false;
+        $skip_out_of_stock = isset($config['feed_ps_product_data_feed_skip_out_of_stock']) ? (bool) $config['feed_ps_product_data_feed_skip_out_of_stock'] : false;
+        $base_login = isset($config['feed_ps_product_data_feed_login']) ? $config['feed_ps_product_data_feed_login'] : '';
+        $base_password = isset($config['feed_ps_product_data_feed_password']) ? $config['feed_ps_product_data_feed_password'] : '';
+        $base_tax_status = isset($config['feed_ps_product_data_feed_tax']) ? (bool) $config['feed_ps_product_data_feed_tax'] : false;
+        $base_tax_definitions = isset($config['feed_ps_product_data_feed_taxes']) ? (array) $config['feed_ps_product_data_feed_taxes'] : [];
 
         $is_oc_4_1 = version_compare(VERSION, '4.1.0.0', '>=');
 
@@ -44,13 +44,13 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
             header('Cache-Control: no-cache, must-revalidate, max-age=0');
 
             if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
-                header('WWW-Authenticate: Basic realm="ps_google_base"');
+                header('WWW-Authenticate: Basic realm="ps_product_data_feed"');
                 header('HTTP/1.1 401 Unauthorized');
                 echo 'Invalid credentials';
                 exit;
             } else {
                 if ($_SERVER['PHP_AUTH_USER'] !== $base_login || $_SERVER['PHP_AUTH_PW'] !== $base_password) {
-                    header('WWW-Authenticate: Basic realm="ps_google_base"');
+                    header('WWW-Authenticate: Basic realm="ps_product_data_feed"');
                     header('HTTP/1.1 401 Unauthorized');
                     echo 'Invalid credentials';
                     exit;
@@ -59,7 +59,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         }
 
 
-        $this->load->model('extension/ps_google_base/feed/ps_google_base');
+        $this->load->model('extension/ps_product_data_feed/feed/ps_product_data_feed');
         $this->load->model('catalog/category');
         $this->load->model('catalog/product');
         $this->load->model('tool/image');
@@ -101,7 +101,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
         if (is_array($base_tax_definitions)) {
             foreach ($base_tax_definitions as $base_tax_definition) {
-                $tax_rate_info = $this->model_extension_ps_google_base_feed_ps_google_base->getTaxRate($base_tax_definition['tax_rate_id']);
+                $tax_rate_info = $this->model_extension_ps_product_data_feed_feed_ps_product_data_feed->getTaxRate($base_tax_definition['tax_rate_id']);
 
                 if ($tax_rate_info) {
                     $taxes[] = [
@@ -117,7 +117,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
         $product_data = [];
         $category_data = [];
 
-        $google_base_categories = $this->model_extension_ps_google_base_feed_ps_google_base->getCategories();
+        $google_base_categories = $this->model_extension_ps_product_data_feed_feed_ps_product_data_feed->getCategories();
 
         foreach ($google_base_categories as $google_base_category) {
             $filter_data = [
@@ -127,7 +127,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
             $products = $this->model_catalog_product->getProducts($filter_data);
 
-            $products_codes = $this->model_extension_ps_google_base_feed_ps_google_base->getProductCodes(array_column($products, 'product_id'));
+            $products_codes = $this->model_extension_ps_product_data_feed_feed_ps_product_data_feed->getProductCodes(array_column($products, 'product_id'));
 
             foreach ($products as $product) {
                 if (!in_array($product['product_id'], $product_data) && $product['description']) {
@@ -228,7 +228,7 @@ class PSGoogleBase extends \Opencart\System\Engine\Controller
 
                         $xml->writeElement('g:sale_price', $this->currency->format($formatted_price, $this->config->get('config_currency'), 0, false) . ' ' . $this->config->get('config_currency'));
 
-                        $sale_dates = $this->model_extension_ps_google_base_feed_ps_google_base->getSpecialPriceDatesByProductId($product['product_id']);
+                        $sale_dates = $this->model_extension_ps_product_data_feed_feed_ps_product_data_feed->getSpecialPriceDatesByProductId($product['product_id']);
 
                         if (
                             isset($sale_dates['date_start'], $sale_dates['date_end']) &&

@@ -92,8 +92,8 @@
 								<label for="input-additional-images" class="col-sm-2 col-form-label">{{ entry_additional_images }}</label>
 								<div class="col-sm-10">
 									<div class="form-check form-switch form-switch-lg">
-										<input type="hidden" name="feed_ps_google_base_additional_images" value="0">
-										<input type="checkbox" name="feed_ps_google_base_additional_images" value="1" id="input-additional-images" class="form-check-input" {% if feed_ps_google_base_additional_images %} checked{% endif %}>
+										<input type="hidden" name="feed_ps_product_data_feed_additional_images" value="0">
+										<input type="checkbox" name="feed_ps_product_data_feed_additional_images" value="1" id="input-additional-images" class="form-check-input" {% if feed_ps_product_data_feed_additional_images %} checked{% endif %}>
 									</div>
 									<div class="form-text">{{ help_additional_images }}</div>
 								</div>
@@ -103,8 +103,8 @@
 								<label for="input-skip-out-of-stock" class="col-sm-2 col-form-label">{{ entry_skip_out_of_stock }}</label>
 								<div class="col-sm-10">
 									<div class="form-check form-switch form-switch-lg">
-										<input type="hidden" name="feed_ps_google_base_skip_out_of_stock" value="0">
-										<input type="checkbox" name="feed_ps_google_base_skip_out_of_stock" value="1" id="input-skip-out-of-stock" class="form-check-input" {% if feed_ps_google_base_skip_out_of_stock %} checked{% endif %}>
+										<input type="hidden" name="feed_ps_product_data_feed_skip_out_of_stock" value="0">
+										<input type="checkbox" name="feed_ps_product_data_feed_skip_out_of_stock" value="1" id="input-skip-out-of-stock" class="form-check-input" {% if feed_ps_product_data_feed_skip_out_of_stock %} checked{% endif %}>
 									</div>
 								</div>
 							</div>
@@ -113,13 +113,13 @@
 								<label for="input-tax-status" class="col-sm-2 col-form-label">{{ entry_tax }}</label>
 								<div class="col-sm-10">
 									<div class="form-check form-switch form-switch-lg">
-										<input type="hidden" name="feed_ps_google_base_tax" value="0">
-										<input type="checkbox" name="feed_ps_google_base_tax" value="1" id="input-tax-status" class="form-check-input" {% if feed_ps_google_base_tax %} checked{% endif %}>
+										<input type="hidden" name="feed_ps_product_data_feed_tax" value="0">
+										<input type="checkbox" name="feed_ps_product_data_feed_tax" value="1" id="input-tax-status" class="form-check-input" {% if feed_ps_product_data_feed_tax %} checked{% endif %}>
 									</div>
 								</div>
 							</div>
 
-							<fieldset class="row mb-3" id="tax-group"{% if not feed_ps_google_base_tax %} style="display: none;" {% endif %}>
+							<fieldset class="row mb-3" id="tax-group"{% if not feed_ps_product_data_feed_tax %} style="display: none;" {% endif %}>
 								<legend>{{ heading_tax_deffinitions }}</legend>
 
 								<div class="table-responsive">
@@ -134,20 +134,20 @@
 											</tr>
 										</thead>
 										<tbody>
-											{% for tax in feed_ps_google_base_taxes %}
+											{% for tax in feed_ps_product_data_feed_taxes %}
 											<tr id="tax-row-{{ loop.index0 }}">
 												<td class="text-start">
-													<input type="text" name="feed_ps_google_base_taxes[{{ loop.index0 }}][country]" value="{{ tax.country }}" placeholder="{{ entry_country }}" data-oc-target="autocomplete-tax-country-{{ loop.index0 }}" id="input-tax-country-{{ loop.index0 }}" class="form-control" autocomplete="off">
-													<input type="hidden" name="feed_ps_google_base_taxes[{{ loop.index0 }}][country_id]" value="{{ tax.country_id }}" id="input-tax-country-id-{{ loop.index0 }}" class="form-control">
+													<input type="text" name="feed_ps_product_data_feed_taxes[{{ loop.index0 }}][country]" value="{{ tax.country }}" placeholder="{{ entry_country }}" data-oc-target="autocomplete-tax-country-{{ loop.index0 }}" id="input-tax-country-{{ loop.index0 }}" class="form-control" autocomplete="off">
+													<input type="hidden" name="feed_ps_product_data_feed_taxes[{{ loop.index0 }}][country_id]" value="{{ tax.country_id }}" id="input-tax-country-id-{{ loop.index0 }}" class="form-control">
 													<ul id="autocomplete-tax-country-{{ loop.index0 }}" class="dropdown-menu"></ul>
 													<div id="error-input-tax-country-{{ loop.index0 }}" class="invalid-feedback"></div>
 												</td>
 												<td class="text-start">
-													<input type="text" name="feed_ps_google_base_taxes[{{ loop.index0 }}][region]" value="{{ tax.region }}" id="input-tax-region-{{ loop.index0 }}" placeholder="{{ entry_region }}" maxlength="2" class="form-control">
+													<input type="text" name="feed_ps_product_data_feed_taxes[{{ loop.index0 }}][region]" value="{{ tax.region }}" id="input-tax-region-{{ loop.index0 }}" placeholder="{{ entry_region }}" maxlength="2" class="form-control">
 													<div id="error-input-tax-region-{{ loop.index0 }}" class="invalid-feedback"></div>
 												</td>
 												<td class="text-start">
-													<select name="feed_ps_google_base_taxes[{{ loop.index0 }}][tax_rate_id]" id="input-tax-rate-id-{{ loop.index0 }}" class="form-select">
+													<select name="feed_ps_product_data_feed_taxes[{{ loop.index0 }}][tax_rate_id]" id="input-tax-rate-id-{{ loop.index0 }}" class="form-select">
 														<option value="">{{ text_select }}</option>
 														{% for tax_rate in tax_rates %}
 														<option value="{{ tax_rate.tax_rate_id }}" {% if tax_rate.tax_rate_id == tax.tax_rate_id %} selected{% endif %}>{{ tax_rate.name }}</option>
@@ -157,8 +157,8 @@
 												</td>
 												<td class="text-start">
 													<div class="form-check form-switch form-switch-lg">
-														<input type="hidden" name="feed_ps_google_base_taxes[{{ loop.index0 }}][tax_ship]" value="0">
-														<input type="checkbox" name="feed_ps_google_base_taxes[{{ loop.index0 }}][tax_ship]" value="1" class="form-check-input" {% if tax.tax_ship %} checked{% endif %} id="input-tax-ship-{{ loop.index0 }}">
+														<input type="hidden" name="feed_ps_product_data_feed_taxes[{{ loop.index0 }}][tax_ship]" value="0">
+														<input type="checkbox" name="feed_ps_product_data_feed_taxes[{{ loop.index0 }}][tax_ship]" value="1" class="form-check-input" {% if tax.tax_ship %} checked{% endif %} id="input-tax-ship-{{ loop.index0 }}">
 													</div>
 												</td>
 												<td class="text-end"><button type="button" onclick="$('#tax-row-{{ loop.index0 }}').remove();" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>
@@ -180,14 +180,14 @@
 								<div class="row mb-3">
 									<label for="input-login" class="col-sm-2 col-form-label">{{ entry_login }}</label>
 									<div class="col-sm-10">
-										<input type="text" name="feed_ps_google_base_login" value="{{ feed_ps_google_base_login }}" placeholder="{{ entry_login }}" id="input-login" class="form-control">
+										<input type="text" name="feed_ps_product_data_feed_login" value="{{ feed_ps_product_data_feed_login }}" placeholder="{{ entry_login }}" id="input-login" class="form-control">
 									</div>
 								</div>
 
 								<div class="row mb-3">
 									<label for="input-password" class="col-sm-2 col-form-label">{{ entry_password }}</label>
 									<div class="col-sm-10">
-										<input type="password" name="feed_ps_google_base_password" value="{{ feed_ps_google_base_password }}" placeholder="{{ entry_password }}" id="input-password" class="form-control">
+										<input type="password" name="feed_ps_product_data_feed_password" value="{{ feed_ps_product_data_feed_password }}" placeholder="{{ entry_password }}" id="input-password" class="form-control">
 									</div>
 								</div>
 
@@ -213,8 +213,8 @@
 								<label for="input-status" class="col-sm-2 col-form-label">{{ entry_status }}</label>
 								<div class="col-sm-10">
 									<div class="form-check form-switch form-switch-lg">
-										<input type="hidden" name="feed_ps_google_base_status" value="0">
-										<input type="checkbox" name="feed_ps_google_base_status" value="1" class="form-check-input" {% if feed_ps_google_base_status %} checked{% endif %} id="input-status">
+										<input type="hidden" name="feed_ps_product_data_feed_status" value="0">
+										<input type="checkbox" name="feed_ps_product_data_feed_status" value="1" class="form-check-input" {% if feed_ps_product_data_feed_status %} checked{% endif %} id="input-status">
 									</div>
 								</div>
 							</div>
@@ -259,7 +259,7 @@
 			$this.autocomplete({
 				'source': function (request, response) {
 					$.ajax({
-						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}countryautocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+						url: 'index.php?route=extension/ps_product_data_feed/feed/ps_product_data_feed{{ oc4_separator }}countryautocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
 						dataType: 'json',
 						success: function (json) {
 							response($.map(json, function (item) {
@@ -288,22 +288,22 @@
 			}
 		});
 
-		var tax_row = {{ feed_ps_google_base_taxes|length }};
+		var tax_row = {{ feed_ps_product_data_feed_taxes|length }};
 
 		$('#button-tax').on('click', function () {
 			var html = '<tr id="tax-row-' + tax_row + '">';
 			html += '	<td class="text-start">';
-			html += '		<input type="text" name="feed_ps_google_base_taxes[' + tax_row + '][country]" value="{{ tax.country }}" placeholder="{{ entry_country }}" data-oc-target="autocomplete-tax-country-' + tax_row + '" id="input-tax-country-' + tax_row + '" class="form-control" autocomplete="off">';
-			html += '		<input type="hidden" name="feed_ps_google_base_taxes[' + tax_row + '][country_id]" value="{{ tax.country_id }}" id="input-tax-country-id-' + tax_row + '" class="form-control">';
+			html += '		<input type="text" name="feed_ps_product_data_feed_taxes[' + tax_row + '][country]" value="{{ tax.country }}" placeholder="{{ entry_country }}" data-oc-target="autocomplete-tax-country-' + tax_row + '" id="input-tax-country-' + tax_row + '" class="form-control" autocomplete="off">';
+			html += '		<input type="hidden" name="feed_ps_product_data_feed_taxes[' + tax_row + '][country_id]" value="{{ tax.country_id }}" id="input-tax-country-id-' + tax_row + '" class="form-control">';
 			html += '		<ul id="autocomplete-tax-country-' + tax_row + '" class="dropdown-menu"></ul>';
 			html += '		<div id="error-input-tax-country-' + tax_row + '" class="invalid-feedback"></div>';
 			html += '	</td>';
 			html += '	<td class="text-start">';
-			html += '		<input type="text" name="feed_ps_google_base_taxes[' + tax_row + '][region]" value="{{ tax.region }}" id="input-tax-region-' + tax_row + '" placeholder="{{ entry_region }}" maxlength="2" class="form-control">';
+			html += '		<input type="text" name="feed_ps_product_data_feed_taxes[' + tax_row + '][region]" value="{{ tax.region }}" id="input-tax-region-' + tax_row + '" placeholder="{{ entry_region }}" maxlength="2" class="form-control">';
 			html += '		<div id="error-input-tax-region-' + tax_row + '" class="invalid-feedback"></div>';
 			html += '	</td>';
 			html += '	<td class="text-start">';
-			html += '	<select name="feed_ps_google_base_taxes[' + tax_row + '][tax_rate_id]" id="input-tax-rate-id-' + tax_row + '" class="form-select">';
+			html += '	<select name="feed_ps_product_data_feed_taxes[' + tax_row + '][tax_rate_id]" id="input-tax-rate-id-' + tax_row + '" class="form-select">';
 			html += '	<option value="">{{ text_select }}</option>';
 			html += '		{% for tax_rate in tax_rates %}<option value="{{ tax_rate.tax_rate_id }}" {% if tax_rate.tax_rate_id == tax.tax_rate_id %} selected{% endif %}>{{ tax_rate.name }}</option>{% endfor %}';
 			html += '	</select>';
@@ -311,8 +311,8 @@
 			html += '	</td>';
 			html += '	<td class="text-start">';
 			html += '		<div class="form-check form-switch form-switch-lg">';
-			html += '			<input type="hidden" name="feed_ps_google_base_taxes[' + tax_row + '][tax_ship]" value="0">';
-			html += '			<input type="checkbox" name="feed_ps_google_base_taxes[' + tax_row + '][tax_ship]" value="1" class="form-check-input" {% if tax.tax_ship %} checked{% endif %} id="input-tax-ship-' + tax_row + '">';
+			html += '			<input type="hidden" name="feed_ps_product_data_feed_taxes[' + tax_row + '][tax_ship]" value="0">';
+			html += '			<input type="checkbox" name="feed_ps_product_data_feed_taxes[' + tax_row + '][tax_ship]" value="1" class="form-check-input" {% if tax.tax_ship %} checked{% endif %} id="input-tax-ship-' + tax_row + '">';
 			html += '		</div>';
 			html += '	</td>';
 			html += '	<td class="text-end"><button type="button" onclick="$(\'#tax-row-' + tax_row + '\').remove();" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>';
@@ -345,7 +345,7 @@
 		$('input[name=\'google_base_category\']').autocomplete({
 			'source': function (request, response) {
 				$.ajax({
-					url: 'index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+					url: 'index.php?route=extension/ps_product_data_feed/feed/ps_product_data_feed{{ oc4_separator }}autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
 					dataType: 'json',
 					success: function (json) {
 						response($.map(json, function (item) {
@@ -397,11 +397,11 @@
 			$('#category').load(this.href);
 		});
 
-		$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}category&store_id={{ store_id }}&user_token={{ user_token }}');
+		$('#category').load('index.php?route=extension/ps_product_data_feed/feed/ps_product_data_feed{{ oc4_separator }}category&store_id={{ store_id }}&user_token={{ user_token }}');
 
 		$('#button-category-add').on('click', function () {
 			$.ajax({
-				url: 'index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}addcategory&user_token={{ user_token }}',
+				url: 'index.php?route=extension/ps_product_data_feed/feed/ps_product_data_feed{{ oc4_separator }}addcategory&user_token={{ user_token }}',
 				type: 'post',
 				dataType: 'json',
 				data: 'store_id=' + $('input[name=\'store_id\']').val() + '&google_base_category_id=' + $('input[name=\'google_base_category_id\']').val() + '&category_id=' + $('input[name=\'category_id\']').val(),
@@ -426,7 +426,7 @@
 						$('input[name=\'google_base_category\']').val('');
 						$('input[name=\'google_base_category_id\']').val('');
 
-						$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}category&store_id={{ store_id }}&user_token={{ user_token }}');
+						$('#category').load('index.php?route=extension/ps_product_data_feed/feed/ps_product_data_feed{{ oc4_separator }}category&store_id={{ store_id }}&user_token={{ user_token }}');
 					}
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
@@ -439,7 +439,7 @@
 			var element = this;
 
 			$.ajax({
-				url: 'index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}removecategory&store_id={{ store_id }}&user_token={{ user_token }}',
+				url: 'index.php?route=extension/ps_product_data_feed/feed/ps_product_data_feed{{ oc4_separator }}removecategory&store_id={{ store_id }}&user_token={{ user_token }}',
 				type: 'post',
 				data: 'store_id=' + $('input[name=\'store_id\']').val() + '&category_id=' + encodeURIComponent(this.value),
 				dataType: 'json',
@@ -461,7 +461,7 @@
 					if (json['success']) {
 						$('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
-						$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}category&store_id={{ store_id }}&user_token={{ user_token }}');
+						$('#category').load('index.php?route=extension/ps_product_data_feed/feed/ps_product_data_feed{{ oc4_separator }}category&store_id={{ store_id }}&user_token={{ user_token }}');
 					}
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
@@ -486,7 +486,7 @@
 					clearInterval(timer);
 
 					$.ajax({
-						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}import_gbc&user_token={{ user_token }}',
+						url: 'index.php?route=extension/ps_product_data_feed/feed/ps_product_data_feed{{ oc4_separator }}import_gbc&user_token={{ user_token }}',
 						type: 'post',
 						dataType: 'json',
 						data: new FormData($('#form-upload')[0]),
@@ -534,7 +534,7 @@
 					clearInterval(timer);
 
 					$.ajax({
-						url: 'index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}restore_gbc2c&store_id={{ store_id }}&user_token={{ user_token }}',
+						url: 'index.php?route=extension/ps_product_data_feed/feed/ps_product_data_feed{{ oc4_separator }}restore_gbc2c&store_id={{ store_id }}&user_token={{ user_token }}',
 						type: 'post',
 						dataType: 'json',
 						data: new FormData($('#form-upload')[0]),
@@ -557,7 +557,7 @@
 							if (json['success']) {
 								$('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
-								$('#category').load('index.php?route=extension/ps_google_base/feed/ps_google_base{{ oc4_separator }}category&store_id={{ store_id }}&user_token={{ user_token }}');
+								$('#category').load('index.php?route=extension/ps_product_data_feed/feed/ps_product_data_feed{{ oc4_separator }}category&store_id={{ store_id }}&user_token={{ user_token }}');
 							}
 						},
 						error: function (xhr, ajaxOptions, thrownError) {
