@@ -18,20 +18,20 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
     const EXTENSION_DOC = 'https://github.com/playfulsparkle/oc4_product_data_feed.git';
 
     /**
-     * Displays the Product Data Feed feed settings page.
+     * Displays the Google Product Data Feed feed settings page.
      *
-     * This method initializes the settings page for the Product Data Feed feed extension.
+     * This method initializes the settings page for the Google Product Data Feed feed extension.
      * It loads the necessary language files, sets the page title, prepares breadcrumb
      * navigation, and collects configuration data. It also retrieves available languages
      * and tax rates, and passes all relevant data to the view for rendering.
      *
      * The method performs the following steps:
-     * - Loads language definitions for the Product Data Feed feed.
+     * - Loads language definitions for the Google Product Data Feed feed.
      * - Sets the document title based on the language strings.
      * - Constructs breadcrumb links for navigation.
      * - Prepares the action URL for saving settings and a back link.
      * - Loads available languages and generates data feed URLs for each language.
-     * - Collects configuration options related to the Product Data Feed feed.
+     * - Collects configuration options related to the Google Product Data Feed feed.
      * - Loads tax rates and prepares them for display.
      * - Renders the settings view with all the collected data.
      *
@@ -210,10 +210,10 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
     }
 
     /**
-     * Save settings for the Product Data Feed feed.
+     * Save settings for the Google Product Data Feed feed.
      *
      * This method handles the saving of configuration settings related to the
-     * Product Data Feed feed. It first checks if the user has permission to modify
+     * Google Product Data Feed feed. It first checks if the user has permission to modify
      * the settings. If the user has the required permissions, it validates
      * the provided tax information. If any validation fails, it collects error
      * messages. If all validations pass, it saves the settings to the database
@@ -222,7 +222,7 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
      * The method performs the following steps:
      *
      * - Loads the relevant language strings for error messages and success messages.
-     * - Checks if the user has permission to modify the Product Data Feed feed settings.
+     * - Checks if the user has permission to modify the Google Product Data Feed feed settings.
      * - Validates the input data for each tax entry:
      *   - Ensures the country and country ID are not empty.
      *   - Ensures the region is not empty.
@@ -277,9 +277,9 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
     }
 
     /**
-     * Install the Product Data Feed feed extension.
+     * Install the Google Product Data Feed feed extension.
      *
-     * This method is called to perform any setup required when the Product Data Feed
+     * This method is called to perform any setup required when the Google Product Data Feed
      * feed extension is installed. It loads the appropriate model and calls
      * the model's install method to handle the installation logic, which may
      * include database schema updates or initial setup tasks.
@@ -296,9 +296,9 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
     }
 
     /**
-     * Uninstall the Product Data Feed feed extension.
+     * Uninstall the Google Product Data Feed feed extension.
      *
-     * This method is called to perform any cleanup required when the Product Data Feed
+     * This method is called to perform any cleanup required when the Google Product Data Feed
      * feed extension is uninstalled. It loads the appropriate model and calls
      * the model's uninstall method to handle the uninstallation logic, which may
      * include removing database entries or reverting changes made during installation.
@@ -425,7 +425,7 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
      * import categories into the database.
      *
      * The method performs the following steps:
-     * 1. Checks if the user has permission to modify the Product Data Feed feed settings.
+     * 1. Checks if the user has permission to modify the Google Product Data Feed feed settings.
      * 2. Validates the uploaded file for the correct format (must be a .txt file).
      * 3. Handles any upload errors and prepares error messages.
      * 4. Reads the content of the uploaded file and invokes the import method
@@ -492,16 +492,16 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
     }
 
     /**
-     * Retrieves and displays Product Data Feed categories for the feed.
+     * Retrieves and displays Google Product Data Feed categories for the feed.
      *
-     * This method handles the retrieval and display of Product Data Feed categories
+     * This method handles the retrieval and display of Google Product Data Feed categories
      * within the extension. It supports pagination and prepares data to be rendered
      * in the corresponding view. The method performs the following actions:
      *
      * 1. Loads the required language file for localization.
      * 2. Retrieves the current page number from the request; defaults to page 1 if not set.
      * 3. Sets a limit for the number of categories displayed per page.
-     * 4. Loads the model responsible for Product Data Feed feed operations.
+     * 4. Loads the model responsible for Google Product Data Feed feed operations.
      * 5. Fetches the categories from the model based on the current page and limit.
      * 6. Populates an array with the retrieved categories for output.
      * 7. Calculates the total number of categories and prepares pagination data.
@@ -566,9 +566,9 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
     }
 
     /**
-     * Adds a Product Data Feed category to the feed.
+     * Adds a Google Product Data Feed category to the feed.
      *
-     * This method handles the addition of a Product Data Feed category based on
+     * This method handles the addition of a Google Product Data Feed category based on
      * the provided POST data. It checks if the user has permission to modify
      * the feed and if the required category IDs are present. If successful,
      * it invokes the model to add the category and returns a success message.
@@ -598,9 +598,9 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
     }
 
     /**
-     * Removes a Product Data Feed category from the feed.
+     * Removes a Google Product Data Feed category from the feed.
      *
-     * This method handles the removal of a specified Product Data Feed category
+     * This method handles the removal of a specified Google Product Data Feed category
      * from the feed. It checks if the user has the necessary permissions
      * to modify the feed. If the user has permission, the specified category
      * is deleted through the model and a success message is returned.
@@ -628,9 +628,9 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
     }
 
     /**
-     * Autocompletes Product Data Feed category names based on user input.
+     * Autocompletes Google Product Data Feed category names based on user input.
      *
-     * This method provides autocomplete suggestions for Product Data Feed categories
+     * This method provides autocomplete suggestions for Google Product Data Feed categories
      * based on the input from the user. It retrieves category data from the
      * model, filtering based on the provided name, and returns a JSON response
      * with the matching categories.
