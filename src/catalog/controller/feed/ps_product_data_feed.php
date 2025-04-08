@@ -127,7 +127,11 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
 
             $products = $this->model_catalog_product->getProducts($filter_data);
 
-            $products_codes = $this->model_extension_ps_product_data_feed_feed_ps_product_data_feed->getProductCodes(array_column($products, 'product_id'));
+            if ($is_oc_4_1) {
+                $products_codes = $this->model_extension_ps_product_data_feed_feed_ps_product_data_feed->getProductCodes(array_column($products, 'product_id'));
+            } else {
+                $products_codes = [];
+            }
 
             foreach ($products as $product) {
                 if (!in_array($product['product_id'], $product_data) && $product['description']) {
