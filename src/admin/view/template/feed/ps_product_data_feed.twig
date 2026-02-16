@@ -47,6 +47,32 @@
 					<div class="tab-content">
 						<div id="tab-general" class="tab-pane active">
 
+							<div class="row mb-3">
+								<label for="input-status" class="col-sm-2 col-form-label">{{ entry_status }}</label>
+								<div class="col-sm-10">
+									<div class="form-check form-switch form-switch-lg">
+										<input type="hidden" name="feed_ps_product_data_feed_status" value="0">
+										<input type="checkbox" name="feed_ps_product_data_feed_status" value="1" class="form-check-input" {% if feed_ps_product_data_feed_status %} checked{% endif %} id="input-status">
+									</div>
+								</div>
+							</div>
+
+							<div class="row mb-3">
+								<label class="col-sm-2 col-form-label">{{ entry_data_feed_url }}</label>
+								<div class="col-sm-10">
+									{% for language in languages %}
+									<div class="input-group">
+										<div class="input-group-text"><img src="{{ language.image }}" title="{{ language.name }}"></div>
+										<input type="text" name="data_feed_{{ language.language_id }}" value="{{ data_feed_urls[language.language_id] }}" id="input-data-feed-{{ language.language_id }}" class="form-control" readonly>
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-info btn-copy" data-bs-toggle="tooltip" data-input-id="input-data-feed-{{ language.language_id }}" title="{{ help_copy }}"><i class="fa-solid fa-copy"></i></button>
+											<button type="button" class="btn btn-light btn-open" data-bs-toggle="tooltip" data-input-id="input-data-feed-{{ language.language_id }}" title="{{ help_open }}"><i class="fa-solid fa-link"></i></button>
+										</span>
+									</div>
+									{% endfor %}
+								</div>
+							</div>
+
 							<fieldset class="border p-3 mb-3">
 								<legend>{{ heading_categories }}</legend>
 
@@ -109,20 +135,20 @@
 								</div>
 							</div>
 
-							<div class="row mb-3">
-								<label for="input-tax-status" class="col-sm-2 col-form-label">{{ entry_tax }}</label>
-								<div class="col-sm-10">
-									<div class="form-check form-switch form-switch-lg">
-										<input type="hidden" name="feed_ps_product_data_feed_tax" value="0">
-										<input type="checkbox" name="feed_ps_product_data_feed_tax" value="1" id="input-tax-status" class="form-check-input" {% if feed_ps_product_data_feed_tax %} checked{% endif %}>
-									</div>
-								</div>
-							</div>
-
-							<fieldset class="row mb-3" id="tax-group"{% if not feed_ps_product_data_feed_tax %} style="display: none;" {% endif %}>
+							<fieldset class="border p-3 mb-3">
 								<legend>{{ heading_tax_deffinitions }}</legend>
 
-								<div class="table-responsive">
+								<div class="row mb-3">
+									<label for="input-tax-status" class="col-sm-2 col-form-label">{{ entry_tax }}</label>
+									<div class="col-sm-10">
+										<div class="form-check form-switch form-switch-lg">
+											<input type="hidden" name="feed_ps_product_data_feed_tax" value="0">
+											<input type="checkbox" name="feed_ps_product_data_feed_tax" value="1" id="input-tax-status" class="form-check-input" {% if feed_ps_product_data_feed_tax %} checked{% endif %}>
+										</div>
+									</div>
+								</div>
+
+								<div class="table-responsive" id="tax-group"{% if not feed_ps_product_data_feed_tax %} style="display: none;" {% endif %}>
 									<table id="tax-table" class="table table-bordered table-hover">
 										<thead>
 											<tr>
@@ -192,32 +218,6 @@
 								</div>
 
 							</fieldset>
-
-							<div class="row mb-3">
-								<label class="col-sm-2 col-form-label">{{ entry_data_feed_url }}</label>
-								<div class="col-sm-10">
-									{% for language in languages %}
-									<div class="input-group">
-										<div class="input-group-text"><img src="{{ language.image }}" title="{{ language.name }}"></div>
-										<input type="text" name="data_feed_{{ language.language_id }}" value="{{ data_feed_urls[language.language_id] }}" id="input-data-feed-{{ language.language_id }}" class="form-control" readonly>
-										<span class="input-group-btn">
-											<button type="button" class="btn btn-info btn-copy" data-bs-toggle="tooltip" data-input-id="input-data-feed-{{ language.language_id }}" title="{{ help_copy }}"><i class="fa-solid fa-copy"></i></button>
-											<button type="button" class="btn btn-light btn-open" data-bs-toggle="tooltip" data-input-id="input-data-feed-{{ language.language_id }}" title="{{ help_open }}"><i class="fa-solid fa-link"></i></button>
-										</span>
-									</div>
-									{% endfor %}
-								</div>
-							</div>
-
-							<div class="row mb-3">
-								<label for="input-status" class="col-sm-2 col-form-label">{{ entry_status }}</label>
-								<div class="col-sm-10">
-									<div class="form-check form-switch form-switch-lg">
-										<input type="hidden" name="feed_ps_product_data_feed_status" value="0">
-										<input type="checkbox" name="feed_ps_product_data_feed_status" value="1" class="form-check-input" {% if feed_ps_product_data_feed_status %} checked{% endif %} id="input-status">
-									</div>
-								</div>
-							</div>
 
 						</div>
 						<div id="tab-support" class="tab-pane">

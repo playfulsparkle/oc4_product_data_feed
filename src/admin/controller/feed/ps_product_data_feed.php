@@ -247,25 +247,27 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
         }
 
         if (!$json) {
-            if (isset($this->request->post['feed_ps_product_data_feed_tax'], $this->request->post['feed_ps_product_data_feed_taxes'])) {
-                foreach ($this->request->post['feed_ps_product_data_feed_taxes'] as $row_id => $data) {
-                    if ($this->_strlen(trim($data['country'])) === 0 || $this->_strlen(trim($data['country_id'])) === 0) {
-                        $json['error']['input-tax-country-' . $row_id] = $this->language->get('error_tax_country');
-                    }
+            foreach ($this->request->post['feed_ps_product_data_feed_taxes'] as $row_id => $data) {
+                if ($this->_strlen(trim($data['country'])) === 0 || $this->_strlen(trim($data['country_id'])) === 0) {
+                    $json['error']['input-tax-country-' . $row_id] = $this->language->get('error_tax_country');
+                }
 
-                    if ($this->_strlen(trim($data['region'])) === 0) {
-                        $json['error']['input-tax-region-' . $row_id] = $this->language->get('error_tax_region');
-                    }
+                if ($this->_strlen(trim($data['region'])) === 0) {
+                    $json['error']['input-tax-region-' . $row_id] = $this->language->get('error_tax_region');
+                }
 
-                    if ($this->_strlen(trim($data['tax_rate_id'])) === 0) {
-                        $json['error']['input-tax-rate-id-' . $row_id] = $this->language->get('error_tax_rate_id');
-                    }
+                if ($this->_strlen(trim($data['tax_rate_id'])) === 0) {
+                    $json['error']['input-tax-rate-id-' . $row_id] = $this->language->get('error_tax_rate_id');
                 }
             }
         }
 
         if (!$json) {
             $this->load->model('setting/setting');
+
+            if (!(bool) $this->request->post['feed_ps_product_data_feed_tax']) {
+                $this->request->post['feed_ps_product_data_feed_taxes'] = [];
+            }
 
             $this->model_setting_setting->editSetting('feed_ps_product_data_feed', $this->request->post, $this->request->post['store_id']);
 
@@ -288,11 +290,9 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
      */
     public function install(): void
     {
-        if ($this->user->hasPermission('modify', 'extension/feed')) {
-            $this->load->model('extension/ps_product_data_feed/feed/ps_product_data_feed');
+        $this->load->model('extension/ps_product_data_feed/feed/ps_product_data_feed');
 
-            $this->model_extension_ps_product_data_feed_feed_ps_product_data_feed->install();
-        }
+        $this->model_extension_ps_product_data_feed_feed_ps_product_data_feed->install();
     }
 
     /**
@@ -307,11 +307,9 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
      */
     public function uninstall(): void
     {
-        if ($this->user->hasPermission('modify', 'extension/feed')) {
-            $this->load->model('extension/ps_product_data_feed/feed/ps_product_data_feed');
+        $this->load->model('extension/ps_product_data_feed/feed/ps_product_data_feed');
 
-            $this->model_extension_ps_product_data_feed_feed_ps_product_data_feed->uninstall();
-        }
+        $this->model_extension_ps_product_data_feed_feed_ps_product_data_feed->uninstall();
     }
 
     public function backup_gbc2c(): void
