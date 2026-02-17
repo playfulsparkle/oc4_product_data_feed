@@ -247,17 +247,19 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
         }
 
         if (!$json) {
-            foreach ($this->request->post['feed_ps_product_data_feed_taxes'] as $row_id => $data) {
-                if ($this->_strlen(trim($data['country'])) === 0 || $this->_strlen(trim($data['country_id'])) === 0) {
-                    $json['error']['input-tax-country-' . $row_id] = $this->language->get('error_tax_country');
-                }
+            if (isset($this->request->post['feed_ps_product_data_feed_taxes'])) {
+                foreach ($this->request->post['feed_ps_product_data_feed_taxes'] as $row_id => $data) {
+                    if ($this->_strlen(trim($data['country'])) === 0 || $this->_strlen(trim($data['country_id'])) === 0) {
+                        $json['error']['input-tax-country-' . $row_id] = $this->language->get('error_tax_country');
+                    }
 
-                if ($this->_strlen(trim($data['region'])) === 0) {
-                    $json['error']['input-tax-region-' . $row_id] = $this->language->get('error_tax_region');
-                }
+                    if ($this->_strlen(trim($data['region'])) === 0) {
+                        $json['error']['input-tax-region-' . $row_id] = $this->language->get('error_tax_region');
+                    }
 
-                if ($this->_strlen(trim($data['tax_rate_id'])) === 0) {
-                    $json['error']['input-tax-rate-id-' . $row_id] = $this->language->get('error_tax_rate_id');
+                    if ($this->_strlen(trim($data['tax_rate_id'])) === 0) {
+                        $json['error']['input-tax-rate-id-' . $row_id] = $this->language->get('error_tax_rate_id');
+                    }
                 }
             }
         }
