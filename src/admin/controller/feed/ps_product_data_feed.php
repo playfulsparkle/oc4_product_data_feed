@@ -292,6 +292,20 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
      */
     public function install(): void
     {
+        $this->load->model('setting/setting');
+
+        $data = [
+            'feed_ps_product_data_feed_additional_images' => 0,
+            'feed_ps_product_data_feed_login' => '',
+            'feed_ps_product_data_feed_password' => '',
+            'feed_ps_product_data_feed_skip_out_of_stock' => 1,
+            'feed_ps_product_data_feed_status' => 0,
+            'feed_ps_product_data_feed_tax' => 0,
+            'feed_ps_product_data_feed_taxes' => [],
+        ];
+
+        $this->model_setting_setting->editSetting('feed_ps_product_data_feed', $data);
+
         $this->load->model('extension/ps_product_data_feed/feed/ps_product_data_feed');
 
         $this->model_extension_ps_product_data_feed_feed_ps_product_data_feed->install();
