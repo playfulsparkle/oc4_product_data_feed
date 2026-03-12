@@ -332,16 +332,16 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
     {
         $this->load->language('extension/ps_product_data_feed/feed/ps_product_data_feed');
 
-        if (!$this->user->hasPermission('modify', 'extension/ps_product_data_feed/feed/ps_product_data_feed')) {
-            $this->session->data['error'] = $this->language->get('error_permission');
-
-            $this->response->redirect($this->url->link('extension/ps_product_data_feed/feed/ps_product_data_feed', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id']));
-        }
-
         if (isset($this->request->get['store_id'])) {
             $store_id = (int) $this->request->get['store_id'];
         } else {
             $store_id = 0;
+        }
+
+        if (!$this->user->hasPermission('modify', 'extension/ps_product_data_feed/feed/ps_product_data_feed')) {
+            $this->session->data['error'] = $this->language->get('error_permission');
+
+            $this->response->redirect($this->url->link('extension/ps_product_data_feed/feed/ps_product_data_feed', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $store_id));
         }
 
         $this->load->model('extension/ps_product_data_feed/feed/ps_product_data_feed');
@@ -351,7 +351,7 @@ class PSProductDataFeed extends \Opencart\System\Engine\Controller
         if (!$data) {
             $this->session->data['error'] = $this->language->get('error_no_data_to_backup');
 
-            $this->response->redirect($this->url->link('extension/ps_product_data_feed/feed/ps_product_data_feed', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id']));
+            $this->response->redirect($this->url->link('extension/ps_product_data_feed/feed/ps_product_data_feed', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $store_id));
         }
 
         $results = '';
